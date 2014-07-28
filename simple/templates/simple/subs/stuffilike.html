@@ -1,0 +1,15 @@
+{{pageContent | safe }}
+    <ul class="StuffILike">
+    {% for tagName, tagThings in things.items %}
+        <li class="TagLI"><a id="TAGID_{{tagThings.id}}">{{tagName}}</a>
+        <ul class="TAGID_{{tagThings.id}}">
+    	{% for thing in tagThings.things %}
+	        <li class="ThingLI"><a href="{{thing.link}}"><strong>{{thing.title}}</strong></a>
+	        <span class="smallItalicText">{{thing.description}}</span>
+	        </li>
+	    {% endfor %}
+	    <p><span class="postTag CloseButton" id="TAGID_{{tagThings.id}}">Close</span></p>
+	    </ul>
+	    </li>
+	{% endfor %}
+    </ul>
