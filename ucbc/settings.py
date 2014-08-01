@@ -20,7 +20,7 @@ SECRET_KEY = 'WILL_HAVE_TO_CHANGE_THIS_BAD_BOY'#FIXME
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True #FIXME change this
-TEMPLATE_DEBUG = True #FIXME change this
+TEMPLATE_DEBUG = DEBUG #FIXME change this
 
 ALLOWED_HOSTS = ['*']#FIXME you have to remove this
 
@@ -28,6 +28,11 @@ ALLOWED_HOSTS = ['*']#FIXME you have to remove this
 # Application definition
 
 INSTALLED_APPS = (
+    #'grappelli.dashboard',
+    'grappelli',
+    'filebrowser',
+    #'django_admin_bootstrapped.bootstrap3',
+    #'django_admin_bootstrapped',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -78,8 +83,33 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
-STATIC_URL = '/static/'
+#http://stackoverflow.com/questions/5871730/need-a-minimal-django-file-upload-example
 
+
+# FIXME fix this guy
+STATIC_ROOT = 'staticfiles/'
+STATIC_URL = '/static/'
+MEDIA_ROOT = 'mediaroot/'
+MEDIA_URL = '/media/'
+FILEBROWSER_MEDIA_ROOT = 'mediaroot/'
+#FLIEBROWSWE_ROOT = '/mediaroot'
+FILEBROWSER_VERSIONS_BASEDIR = '_versions'
+
+STATICFILES_DIRS = (
+#  os.path.join(BASE_DIR, 'staticfiles'),
+#  '~Projects/UCBC/ucbc/staticfiles/',
+#    os.path.join(BASE_DIR, "static"),
+)
+
+#STATICFILES_FINDERS = (
+#    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+#    'django.contrib.staticfiles.finders.FileSystemFinder',
+#)
+
+#TEMPLATE_CONTEXT_PROCESSORS = (
+#    'django.contrib.auth.context_processors.auth',
+#    'django.core.context_processors.request',
+#)
 
 #EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 #EMAIL_PORT = 587
