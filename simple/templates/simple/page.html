@@ -13,6 +13,7 @@
 {% endblock %}
 {% block content %}
 {{htmlContent | safe}}
+
 {% endblock %}
 {% block extrascripts %}
 {% for script in page.scripts.all %}
@@ -25,6 +26,6 @@
     $(document).ready( function(){
         setupKudos( "{{page.id}}", {{page.kudos}} );
 
-    }); 
+    });
     {% endif %}
 {% endblock %}

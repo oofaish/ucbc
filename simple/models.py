@@ -2,6 +2,7 @@ from django.db import models
 import datetime
 from django.utils import timezone
 from datetime import datetime
+from filebrowser.fields import FileBrowseField
 
 class Category( models.Model ):
     name            = models.CharField( max_length=30 )
@@ -30,40 +31,26 @@ class Tag( models.Model ):
     def __unicode__(self):
         return self.name
 
-class ThingTag( models.Model ):
-    name = models.CharField( max_length=100 )
-
-    def __unicode__(self):
-        return self.name
-
 class Image( models.Model ):
-    title = models.CharField( max_length=100 )
-    link  = models.CharField( max_length=200 )
-    size  = models.CharField( max_length=20  ) #small, #large, #medium
+    imageFile = FileBrowseField(  "Image", max_length = 200, blank = True, null = True, format="image" )
+    title     = models.CharField( max_length=100 )
+    caption   = models.CharField( max_length=400, blank=True )
 
     def __unicode__(self):
         return self.title
 
-class Thing( models.Model ):
-    title       = models.CharField(max_length=200)
-    description = models.TextField()
-    tags        = models.ManyToManyField(ThingTag, blank=True )
-    created     = models.DateTimeField(default=datetime.now())
-    updated     = models.DateTimeField(auto_now=True)
-    reads       = models.PositiveIntegerField(default=0)
-    link        = models.URLField(blank=True)
-    image       = models.URLField(blank=True)
-    video       = models.URLField(blank=True)
-    status      = models.PositiveSmallIntegerField(default=1)#0 means dont show it, 1 means show it
-
-    def __unicode__(self):
-        return self.title
+def pageContentHelp():
+    help = "<h2>Adding Images</h2><h3>Add an image by first adding it to the 'Images' section below. You can then include an image titled 'UCBCRocks' in the article by adding</h3>"
+    help = help + '<h3>[[UCBCRocks;LOCATION]],</h3><h3>to the article, where LOCATION could be left, right, center or left empty.</h3>'
+    help = help + "<h3>Remember you can choose different sized images when selecting the image file by clicking the arrow on left hand side of the 'Select' Button.</h3>"
+    return help
 
 class Page( models.Model ):
     title         = models.CharField(max_length=200)
     slug          = models.CharField(max_length=30)
-    content       = models.TextField()
+    content       = models.TextField(help_text = pageContentHelp() )
     categories    = models.ManyToManyField(Category, blank=True ) #'blogpost', 'static', 'idea',
+    images        = models.ManyToManyField(Image, blank=True )
     tags          = models.ManyToManyField(Tag, blank=True ) #again for blog posts
     created       = models.DateTimeField(default=datetime.now())
     updated       = models.DateTimeField(auto_now=True)
@@ -77,6 +64,7 @@ class Page( models.Model ):
     inlinestyle   = models.TextField(blank=True)
     status        = models.PositiveSmallIntegerField(default=1)#0 means dont show it, 1 means show it
     password      = models.CharField(max_length=20,blank=True)
+
 
     def __unicode__( self ):
         if not self.status:
