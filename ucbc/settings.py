@@ -95,6 +95,9 @@ FILEBROWSER_MEDIA_ROOT = 'mediaroot/'
 #FLIEBROWSWE_ROOT = '/mediaroot'
 FILEBROWSER_VERSIONS_BASEDIR = '_versions'
 
+
+TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates') ]
+
 STATICFILES_DIRS = (
 #  os.path.join(BASE_DIR, 'staticfiles'),
 #  '~Projects/UCBC/ucbc/staticfiles/',
