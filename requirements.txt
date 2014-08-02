@@ -1,6 +1,5 @@
 Django==1.6.5
 Markdown==2.4.1
 Pillow==2.5.1
-django-filebrowser==3.5.6
-django-grappelli==2.5.3
+-e git://github.com/smacker/django-filebrowser-no-grappelli.git@72109bbfa9b934408f40d42b50013b715b4899f5#egg=django_filebrowser-master
 wsgiref==0.1.2

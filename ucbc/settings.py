@@ -29,7 +29,7 @@ ALLOWED_HOSTS = ['*']#FIXME you have to remove this
 
 INSTALLED_APPS = (
     #'grappelli.dashboard',
-    'grappelli',
+    #'grappelli',
     'filebrowser',
     #'django_admin_bootstrapped.bootstrap3',
     #'django_admin_bootstrapped',

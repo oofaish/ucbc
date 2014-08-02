@@ -16,7 +16,7 @@ urlpatterns = patterns('',
     #for now there is only one app:
     (r'^admin/filebrowser/', include(site.urls)),
     #(r'^admin/filebrowser/', include('filebrowser.sites.site.urls')),
-    (r'^grappelli/', include('grappelli.urls')),
+    #(r'^grappelli/', include('grappelli.urls')),
     url( r'^admin/', include( admin.site.urls ) ),
     url( r'^', include( 'simple.urls', namespace = 'simple' ) ),
 )
@@ -25,7 +25,6 @@ urlpatterns = patterns('',
 #urlpatterns += staticfiles_urlpatterns()
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 #urlpatterns += static(settings.MEDIA_URL + settings.FILEBROWSER_VERSIONS_BASEDIR, document_root=settings.MEDIA_ROOT )
-
 #print settings.MEDIA_URL + settings.FILEBROWSER_VERSIONS_BASEDIR
 
 handler404 = 'simple.views.handler404'
