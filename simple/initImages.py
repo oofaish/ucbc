@@ -1,4 +1,4 @@
-from simple.models import Image;
+from simple.models import Image
 
 class InitDB:
   tagNames       = []
