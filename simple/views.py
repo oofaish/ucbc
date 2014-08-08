@@ -49,9 +49,15 @@ def paragraphedPageContent( page ):
             captionCss = ''
         #try:
         imageInstance = page.images.get(title=imageTag)
-        newImageTag = '<img style="' + css + '" src="' + imageInstance.imageFile.url + '" alt="'+ imageInstance.title + '">'
+
         if len( imageInstance.caption ) > 0:
+            if imageLocation == 'center' or imageLocation=='centre':
+                newImageTag = '<img style="' + css + '" src="' + imageInstance.imageFile.url + '" alt="'+ imageInstance.title + '">'
+            else:
+                newImageTag = '<img src="' + imageInstance.imageFile.url + '" alt="'+ imageInstance.title + '">'
             newImageTag = '<figure style="' + css + '">' + newImageTag + '<figcaption style="' + captionCss + '">' + imageInstance.caption + '</figcaption></figure>'
+        else:
+            newImageTag = '<img style="' + css + '" src="' + imageInstance.imageFile.url + '" alt="'+ imageInstance.title + '">'
         content = content.replace( '[[' + imageTag + ';' + imageLocation + ']]', newImageTag )
         #except:
         #    print 'failed to get the image', imageTag

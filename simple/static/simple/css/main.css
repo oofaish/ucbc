@@ -97,10 +97,54 @@ textarea {
    Author's custom styles
    ========================================================================== */
 
-      /****************
+    /****************
     **Navigation Row setup
     **
     ****************/
+
+    .dbHeaderLogo
+    {
+        display: block;
+        position: absolute;
+        right: 50px;
+        top: 50px;
+    }
+
+    .dbHeaderLogo > h3, .crest h1
+    {
+        color: #0018a8;
+        font-weight: 700;
+        width: 150px;
+        text-align: center;
+        font-size: 1.3rem;
+    }
+
+    .crest h1
+    {
+        color: #E3B74F;/*00003e*/
+        background-color: #00003e;
+        font-size: 3rem;
+        display: block;
+        margin: 0 auto;
+    }
+
+    .dbHeaderLogo > img, .crest img
+    {
+        height: 150px;
+        width: auto;
+    }
+
+    .crest
+    {
+        /*background-color: rgba( 255, 255, 255, 0.5 );
+        border-radius: 125px;
+        height: 250px;
+        width: 250px;*/
+        display: block;
+        top: 40px;
+        left: 30px;
+        position: absolute;
+    }
 
     nav
     {
@@ -163,7 +207,7 @@ textarea {
      * NAV
      */
     html{
-        background: black;
+        background: white;
     }
   .qpScroll
   {
@@ -183,13 +227,13 @@ textarea {
 
 .mainColorBackground
 {
-    background-color: #E3B74F;
-    color: black;
+    background-color: #00003e;
+    color: #E3B74F;
 }
 
 .mainColor
 {
-    color: #E3B74F;
+    color: #00003e;
 }
 
 body
@@ -206,8 +250,8 @@ body
 
 .clearBackground
 {
-    background-color: black;
-    background-color: rgba( 20, 20, 20, 0.9 );
+    background-color: white;
+    background-color: rgba( 255, 255, 255, 0.9 );
 
 }
 
@@ -256,30 +300,36 @@ body
 	z-index: 3;
 }
 
+.pageContent ol
+{
+list-style: decimal;
+
+}
+
+.pageContent ol
+{
+padding-left: 40px;
+}
+
 article ul
 {
 	list-style: inside circle;
 }
 
-header h1, .firstNav>li>a, .secondNav
+.firstNav>li>a, .secondNav, .crest h1
 {
     box-shadow: 0 0 5px black;
 }
 
-.headerButton
+.headerButton, .crest h1
 {
     transition: color 0.5s, border-color 0.5s, background-color 0.5s;
     z-index: 20;
 }
 
-.headerButton:hover, .headerButton:focus
+.headerButton:hover, .headerButton:focus, .crest:focus h1, .crest:hover h1
 {
     background-color: #ED3758;
-}
-
-.headerButton:hover #oof
-{
-    color: #ED3758;
 }
 
 header a
@@ -323,41 +373,18 @@ nav
 	margin-top: 10px;
 }
 
+/*
 .headerButton:before
 {
     content: '#';
 }
-
+*/
 nav .headerButton
 {
     padding: 0 5px;
     cursor: pointer;
 }
 
-header h1
-{
-    font-size: 3em;
-    margin: 0 20px 0 20px;
-    /*float: left;*/
-    position: absolute;
-    bottom: 10px;
-    left: 10px;
-    /*font-family: 'bri';*/
-    padding-right: 10px;
-}
-
-#oof {
-    border-radius: 5px;
-    background-color: black;
-    transition: color 0.5s, border-color 0.5s;
-}
-
-
-#aish {
-    padding-left: 0;
-    border-radius: 0;
-    color: black;
-}
 
 footer
 {
@@ -369,8 +396,8 @@ footer
 .footerDiv
 {
     padding: 10px 5px 10px 5px;
-    float: left;
-    width: 33%;
+    /*float: left;
+    /*width: 33%;*/
     min-height: 375px;
     margin-bottom: 10px;
     margin-top: 10px;
@@ -615,16 +642,17 @@ article em
 
 @media only screen and (max-width: 600px) {
 
+    /*
 .clearBackground
 {
     background-color: black;
     background-color: rgba( 20, 20, 20, 0.9 );
-}
-
+}*/
 
 html
 {
-	background-image: url(http://static.cigari.co.uk/images/old_mathematics/old_mathematics.png);
+	/*background-image: url(http://static.cigari.co.uk/images/old_mathematics/old_mathematics.png);*/
+    background: white;
 	background-attachment: fixed;
 }
 
@@ -643,13 +671,40 @@ header
 
 article
 {
-	margin-top: -10px;
+	margin-top: 0px;
 }
 
-header h1
-{
-	bottom: 15px;
-}
+    .dbHeaderLogo
+    {
+        display: block;
+        position: absolute;
+        right: 50px;
+        top: 50px;
+    }
+
+    .dbHeaderLogo > h3, .crest h1
+    {
+        color: #0018a8;
+        font-weight: 700;
+        width: 50px;
+        text-align: center;
+        font-size: 0.7rem;
+    }
+
+    .crest h1
+    {
+        color: #E3B74F;/*00003e*/
+        background-color: #00003e;
+        font-size: 1.1rem;
+        display: block;
+        margin: 0 auto;
+    }
+
+    .dbHeaderLogo > img, .crest img
+    {
+        height: 50px;
+        width: auto;
+    }
 
 nav
 {
@@ -660,7 +715,7 @@ nav
 
  .secondNav
  {
-	 left: -100px;
+	 left: 0px;
  }
 
  article h1

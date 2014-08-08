@@ -46,30 +46,43 @@
                             {% block headerIcons %}{% endblock %}
             <div class="headerImageWrapper pageWidth">
             <div class="headerImageInnerWrapper">
-            <img class="headerImage pageWidth" src="{% static 'simple/img/headerAdjustedLarge.jpg' %}" alt="UCBC Header">
-            <img class="headerImageCover pageWidth" src="{% static 'simple/img/headerAdjustedLargeBlur.jpg' %}" alt="UCBC Header Blur">
+                <img class="headerImage pageWidth" src="/media/uploads/siteStatic/headerAdjustedLarge.jpg" alt="UCBC Header">
+                <img class="headerImageCover pageWidth" src="/media/uploads/siteStatic/headerAdjustedLargeBlur.jpg" alt="UCBC Header Blur">
             </div>
             </div>
-            <a class="jaxify" href="/"><h1 class="headerButton mainColorBackground"><span id="aish" class="">UCBC</span></h1></a>
+                <a class="jaxify crest" href="/"><img src="/media/uploads/siteStatic/crest.png"><h1>UCBC</h1></a>
+                <a class="dbHeaderLogo" href="/"><h3>Sponsored by</h3><img src="/media/uploads/siteStatic/db_square.jpg"></a>
             <nav class="wideNav">
                 <ul class='NavigationUL firstNav'>
-                    <li class="NavigationLI"><a class="mainColorBackground headerButton jaxify" href="/blog/">Blog</a></li>
-                    <li class="NavigationLI respectHover"><a class="mainColorBackground headerButton">Design & Development</a>
+                    <li class="NavigationLI"><a class="mainColorBackground headerButton jaxify" href="/news/">News & Results</a></li>
+                    <li class="NavigationLI"><a class="mainColorBackground headerButton jaxify" href="/give/">Alumni & Donations</a></li>
+                    <li class="NavigationLI"><a class="mainColorBackground headerButton jaxify" href="/committee/">committee</a></li>
+                    <li class="NavigationLI respectHover"><a class="mainColorBackground headerButton">Row For Univ</a>
                     <ul class="secondNav">
-                        <li><a href="/portfolio/" class="mainColorBackground headerButton jaxify">Portfolio</a></li>
-                        <li><a href="/qpscroll/" class="mainColorBackground headerButton jaxify">qpScroll</a></li>
-                        <li><a href="/countdown/" class="mainColorBackground headerButton jaxify">countdownCube</a></li>
+                        <li><a href="/novice/" class="mainColorBackground headerButton jaxify">Novice Rowing & Coxing</a></li>
+                        <li><a href="/experienced/" class="mainColorBackground headerButton jaxify">Experiened Rowing & Coxing</a></li>
+                        <li><a href="/safety/" class="mainColorBackground headerButton jaxify">Water Safety</a></li>
+                        <li><a href="/faqs/" class="mainColorBackground headerButton jaxify">FAQs</a></li>
                     </ul>
-                </li>
-                    <li class="NavigationLI respectHover"><a class="mainColorBackground headerButton">Random</a>
-                        <ul class="secondNav">
-                            <li><a href="/ideas/" class="mainColorBackground headerButton jaxify">ideas</a></li>
-                            <li><a href="/sports/" class="mainColorBackground headerButton jaxify">Sports</a></li>
-                            <li><a href="/training-log/" class="mainColorBackground headerButton jaxify">Training Log</a></li>
-                            <li><a href="/bits/" class="mainColorBackground headerButton jaxify">Bits and Pieces</a></li>
-                        </ul>
                     </li>
-                    <li class="NavigationLI"><a class="mainColorBackground headerButton contactButton">Contact</a></li>
+                    <li class="NavigationLI respectHover"><a class="mainColorBackground headerButton">About Us</a>
+                    <ul class="secondNav">
+                        <li><a href="/fleet/" class="mainColorBackground headerButton jaxify">Our Fleet</a></li>
+                        <li><a href="/history/" class="mainColorBackground headerButton jaxify">Our History</a></li>
+                        <li><a href="/constitution/" class="mainColorBackground headerButton jaxify">Our Constitution</a></li>
+                        <li><a href="/boathouse/" class="mainColorBackground headerButton jaxify">Our Boathouse</a></li>
+                        <li><a href="/sponsors/" class="mainColorBackground headerButton jaxify">Our Sponsors</a></li>
+                    </ul>
+                    </li>
+                    <li class="NavigationLI respectHover"><a class="mainColorBackground headerButton">Gallery</a>
+                    <ul class="secondNav">
+                        <li><a href="/photos/" class="mainColorBackground headerButton jaxify">Photos</a></li>
+                        <li><a href="/videos/" class="mainColorBackground headerButton jaxify">Videos</a></li>
+                    </ul>
+                    </li>
+
+                    <li class="NavigationLI"><a href="/find-us/" class="mainColorBackground headerButton">Find Us</a></li>
+
                 </ul>
             </nav>
         </header>
@@ -93,10 +106,15 @@
 
 
     <div class="aboutMe clearBackground footerDiv">
-        <h3>About Me</h3>
         {{aboutMe | safe}}
+        <ul>
+            <li><a href="http://twitter.com/univbc"><i class="mainColor socialIcon fa fa-twitter fa-2x"></i></a></li>
+            <li><a href="https://www.facebook.com/univbc"><i class="mainColor socialIcon fa fa-facebook fa-2x"></i></a></li>
+        </ul>
+
     </div>
 
+    <!--
     <div class="footerDiv clearBackground contactFormDiv">
         <h3 class="formMessage">Send Me A Wink<img class="formBusy" style="display:none" src="{% static 'simple/img/smallLoader.gif' %}"></h3>
         <form class="contactForm" action="/submitContactForm" method="post">{% csrf_token %}
@@ -110,26 +128,22 @@
     </div>
     <div class="footerDiv clearBackground socialLinks">
         <h3>Find Me Doing My Thing</h3>
-        <ul>
-        <li><a href="http://twitter.com/univbc"><i class="mainColor socialIcon fa fa-twitter fa-2x"></i></a></li>
-        <li><a href="https://www.facebook.com/univbc"><i class="mainColor socialIcon fa fa-facebook fa-2x"></i></a></li>
-        </ul>
 <!--        <ul>
         </ul>-->
     </div>
+
 </footer>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-        <script>window.jQuery || document.write('<script src="http://static.cigari.co.uk/simple/js/vendor/jquery-1.10.2.min.js"><\/script>')</script>
-        <script src="http://static.cigari.co.uk/scripts/qpscroll.js"></script>
-        <!--<script src="{%static 'simple/js/vendor/qpscroll.js' %}"></script>-->
-        <script type="text/javascript" src="http://static.cigari.co.uk/simple/js/vendor/kudos/jquery.cookie.js"></script>
-        <script type="text/javascript" src="http://static.cigari.co.uk/simple/js/vendor/kudos/kudos.js"></script>
-        <script type="text/javascript" src="http://static.cigari.co.uk/simple/js/vendor/share/jquery.sharrre.js"></script>
-        <script type="text/javascript" src="http://static.cigari.co.uk/simple/js/vendor/spin.min.js"></script>
+        <script>window.jQuery || document.write('<script src="{%static 'simple/js/vendor/jquery-1.10.2.min.js'%}"><\/script>')</script>
+        <script text="text/javascript" src="{%static 'simple/js/vendor/qpscroll.js' %}"></script>
+        <script type="text/javascript" src="{%static 'simple/js/vendor/kudos/jquery.cookie.js' %}"></script>
+        <script type="text/javascript" src="{%static 'simple/js/vendor/kudos/kudos.js' %}"></script>
+        <!--<script type="text/javascript" src="http://static.cigari.co.uk/simple/js/vendor/share/jquery.sharrre.js"></script>-->
+        <script text="text/javascript" src="{%static 'simple/js/vendor/spin.min.js' %}"></script>
         <script>
         var _gaq = _gaq || [];
-        _gaq.push(['_setAccount', 'UA-33071862-1']);
-        _gaq.push(['_setDomainName', '.cigari.co.uk']);
+        _gaq.push(['_setAccount', 'UA-33071862-2']);
+        _gaq.push(['_setDomainName', '.ucbc.org.uk']);
         _gaq.push(['_trackPageview']);
         </script>
 
@@ -142,8 +156,8 @@
             $(document).ready(function(){
             	if( window.innerWidth > 600 )
 	                $('body').qpScroll({
-	                    imagesFolder: "http://static.cigari.co.uk/simple/img/parallax/",
-	                    imagesArray: [ "a1.jpg" ],
+	                    imagesFolder: "",
+	                    imagesArray: [ "/media/uploads/siteStatic/a2.jpg", "/media/uploads/siteStatic/a1.jpg" ],
 	                    firstSpeed: 12,
 	                    neighbourRatio: 1.02,
 	                    });
