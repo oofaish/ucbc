@@ -1,5 +1,5 @@
 /**********************************************************
-** by @oofaish   
+** by @oofaish
 **    http://cigari.co.uk/qpscroll
 ***********************************************************/
 
@@ -10,8 +10,8 @@
     **
     ** basically where all the function are defined
         ***********************************************************/
-    var helpers = { 
-    		
+    var helpers = {
+
     		/**********************************************************
              ** scrollToNewPosition
              ***********************************************************/
@@ -22,22 +22,22 @@
                 $.each( scrollDataStringArray, function( index, positionString ){
                    scrollDataArray[ index ] = parseInt( positionString );
                 });
-                
+
                 var coords = '';
                 var speed = options.firstSpeed;
-                
+
                 $.each( scrollDataArray , function( index, position ){
-                    
+
                     speed = options.firstSpeed / Math.pow( options.neighbourRatio, ( numberOfImages - index ) );;
                     var yPos2 = ( yPos / speed );
                     if( coords.length > 0 )
                         coords += ', ';
-                    coords += 'right ' + ( yPos2 + position ) + 'px'; 
+                    coords += 'right ' + ( yPos2 + position ) + 'px';
                 } );
 
                 // Move the background
                 $that.css({ backgroundPosition: coords });
-            }, 
+            },
 
     		/**********************************************************
              ** setupBackgroundAfterImageLoad
@@ -61,15 +61,15 @@
                     var expectedHeight = Math.ceil( height * myWidth / width ) - offset;
                     totalHeight += expectedHeight;
                 }
-                
-                yPosTillNow = totalHeight; 
-                
+
+                yPosTillNow = totalHeight;
+
                 for( index2 = imageLinks.length - 1; index2 >= 0; index2 -- )
                 {
                     var imageLink = imageLinks[ index2 ];
                     var width = imageWidths[ index2 ];
                     var height = imageHeights[ index2 ];
-                    
+
                     var expectedHeight = Math.ceil( height * myWidth / width ) - offset;
                     if( backgroundImage.length > 0 )
                     {
@@ -78,7 +78,7 @@
                         backgroundSize += ', ';
                         scrollData += ',';
                     }
-                    
+
                     backgroundImage += 'url(' + imageLink + ')';
                     backgroundSize += myWidth + 'px auto'
                     yPosTillNow -= expectedHeight;
@@ -87,11 +87,11 @@
                     scrollData += yPosTillNow;
                     //totalHeight = heightTillNow;
                 };
-                
+
                 var ss = {
                     backgroundImage: backgroundImage,
                     backgroundPosition: backgroundPosition,
-                    backgroundSize: backgroundSize, 
+                    backgroundSize: backgroundSize,
                     height: totalHeight + 'px',
                 };
 
@@ -99,7 +99,7 @@
                 div.data( 'qpscroll', scrollData );
                 helpers.scrollToNewPosition( div, - scrollElement.scrollTop(), options );
     		},
-    		
+
             /**********************************************************
             ** init
             ** The main function - actually resets everything each time
@@ -112,8 +112,8 @@
             	        $(this).trigger('resizeEnd');
             	    }, 250);
             	});
-            	
-            	
+
+
                 if( element[ 0 ] == $( 'body' )[ 0 ] )
                 {
                     scrollElement = $( window );
@@ -122,15 +122,15 @@
                 {
                     scrollElement = element;
                 };
-                
+
                 if( options.offset == 0 )
                     offset = 1
                 else
                     offset = options.offset;
-                
+
                 //remove any qpScroll sections
                 element.find('.qpScroll').remove();
-                //add the qpScroll section again 
+                //add the qpScroll section again
                 element.prepend( '<div class="qpScroll"></div>');
                 div = element.find( '.qpScroll' );
                 styles = {
@@ -140,87 +140,87 @@
                     backgroundRepeat: "no-repeat",
                     width: "100%",
                     zIndex: options.zIndex,
-                    overflow: "visible",  
+                    overflow: "visible",
                 };
-                
+
                 div.css( styles );
-                
+
                 numberOfImages = options.imagesArray.length;
                 imageCounter = 0;
-                                
+
                 var folder = options.imagesFolder;
-                
-                if( folder[ folder.length - 1] != '/' )
-                    folder += '/';
-                
+
+                //if( folder[ folder.length - 1] != '/' )
+                //    folder += '/';
+
                 var imageWidths     = [];
                 var imageHeights    = [];
                 var imageLinks      = [];
-                
+
                 //go through images, and create a bunch of strings for
                 $.each( options.imagesArray, function( index, image ){
                     var fullURL = folder + image;
-                    
+
                     imageLinks[ index ] = fullURL;
-                    
+
                     var img = new Image();
                     img.onload = function()
                     {
                         imageCounter += 1;
-                        
+
                         var width  = this.width;
                         var height = this.height;
-                        
+
                         imageWidths[  index ] = width;
                         imageHeights[ index ] = height;
-                        
+
                         if( imageCounter == numberOfImages )
-                        {	
+                        {
                         	helpers.setupBackgroundAfterImageLoad( scrollElement, div, imageLinks, imageWidths, imageHeights, options );
                         };
                     };
-                  
-                    img.src = fullURL;                  
+
+                    img.src = fullURL;
                 } );
-                
+
                 $(window).bind('resizeEnd', function() {
                 	helpers.setupBackgroundAfterImageLoad( scrollElement, div, imageLinks, imageWidths, imageHeights, options );
                 });
-                                
+
                 div.each(function(){
                     var $that = $(this); // assigning the object
 
                     scrollElement.scroll( function()
             		{
                     	helpers.scrollToNewPosition( $that, -$( this ).scrollTop(), options );
-            		});                    		
-                });    
+            		});
+                });
         }
     };
-    
+
     /**********************************************************
      ** Plugin
      ** definition of the plugin function
      ***********************************************************/
     function Plugin( element, userOptions ) {
         var options = $.extend( {}, $.fn.qpScroll.defaults, userOptions );
-        
+
         helpers.init( element, options );
     }
-    
+
     /**********************************************************
      ** Actual attachment to jQuery
-     ***********************************************************/    
+     ***********************************************************/
     $.fn['qpScroll'] = function ( options ) {
         return this.each(function () {
                 Plugin( $( this ), options );
         } );
     };
-    
+
     /**********************************************************
     ** Defaults
     ***********************************************************/
-    
+
     $.fn.qpScroll.defaults = {
                    imagesFolder: 'images/parallax',
                    imagesArray: [],
