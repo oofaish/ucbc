@@ -1,21 +1,31 @@
 {% load staticfiles %}
 <!DOCTYPE html>
-<html class="no-js">
+<html class>
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>University College Boat Club (UCBC), Oxford - {% block title %}{% endblock %}</title>
         <meta name="description" content="Official Website of UCBC, University College Boat Club, Oxford">
         <meta name="viewport" content="initial-scale=1.0,width=device-width,user-scalable=0">
-        <link rel="stylesheet" href="{% static 'simple/css/normalize.css' %}">
+        
+        <!-- Old -->
+        <!--<link rel="stylesheet" href="{% static 'simple/css/normalize.css' %}">
         <link rel="stylesheet" href="{% static 'simple/css/reset.css' %}">
         <link rel="stylesheet" href="{% static 'simple/css/animate.min.css' %}">
         <link href="{% static 'simple/js/vendor/kudos/kudos.css' %}" media="screen" rel="stylesheet" type="text/css" />
         <link href='http://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic' rel='stylesheet' type='text/css'>
-        <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+        <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet"> -->
         <!--<link rel="stylesheet" href="{% static 'simple/css/font-awesome/css/font-awesome.min.css'%}">-->
 
-        <link rel="stylesheet" href="{% static 'simple/css/main.css' %}">
+        <!-- Bootstrap core CSS -->
+        <link href="{{STATIC_URL}}css/bootstrap.min.css" rel="stylesheet">
+        <!-- Bootstrap theme -->
+        <link href="{{STATIC_URL}}css/bootstrap-theme.min.css" rel="stylesheet">    
+        <!-- UCBC page specific CSS -->
+        <link href="{% static 'simple/css/ucbc.css' %}" rel="stylesheet">
+
+        <!-- Old too -->
+        <!-- <link rel="stylesheet" href="{% static 'simple/css/main.css' %}">
         {% block extrastyle %}{% endblock %}
         <script src="{% static 'simple/js/vendor/modernizr-2.7.1.min.js' %}"></script>
 
@@ -35,15 +45,18 @@
         <meta name="twitter:description" content="{{page.summary}}" />
 
         <meta name="apple-mobile-web-app-capable" content="yes">
-        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black"> -->
     </head>
         <!--[if lt IE 8]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
 
+
+    <!-- OLD BODY -->
+    <!--
     <body class="mainColor">
             <header class="pageWidth">
-                            {% block headerIcons %}{% endblock %}
+                        
             <div class="headerImageWrapper pageWidth">
             <div class="headerImageInnerWrapper">
                 <img class="headerImage pageWidth" src="/media/uploads/siteStatic/headerAdjustedLarge.jpg" alt="UCBC Header">
@@ -86,13 +99,13 @@
                 </ul>
             </nav>
         </header>
+        -->
         <!-- Add your site or application content here -->
+        <!--
         <article class="pageWidth clearBackground">
-            <h1 class="pageTitle">{% block header %}{% endblock %}</h1>
+            <h1 class="pageTitle">=</h1>
             <div class="kudosDiv"></div>
             <div class="pageContent">
-            {% block content %}
-            {% endblock %}
             </div>
             <div class="shareWrapper"></div>
             <div class="AlertBox alert-success">
@@ -101,8 +114,7 @@
             </div>
         </article>
 <footer class="pageWidth">
-            {% block footer %}
-            {% endblock %}
+        
 
 
     <div class="aboutMe socialLinks clearBackground footerDiv">
@@ -114,10 +126,10 @@
 
     </div>
 
-    <!--
+    
     <div class="footerDiv clearBackground contactFormDiv">
         <h3 class="formMessage">Send Me A Wink<img class="formBusy" style="display:none" src="{% static 'simple/img/smallLoader.gif' %}"></h3>
-        <form class="contactForm" action="/submitContactForm" method="post">{% csrf_token %}
+        <form class="contactForm" action="/submitContactForm" method="post">
             {{ contactform.as_p }}
             <div class="clearfix"></div>
             <label></label>
@@ -128,8 +140,9 @@
     </div>
     <div class="footerDiv clearBackground socialLinks">
         <h3>Find Me Doing My Thing</h3>
-<!--        <ul>
+       <ul>
         </ul>-->
+    <!--
     </div>
 
 </footer>
@@ -138,8 +151,9 @@
         <script text="text/javascript" src="{%static 'simple/js/vendor/qpscroll.js' %}"></script>
         <script type="text/javascript" src="{%static 'simple/js/vendor/kudos/jquery.cookie.js' %}"></script>
         <script type="text/javascript" src="{%static 'simple/js/vendor/kudos/kudos.js' %}"></script>
+    -->
         <!--<script type="text/javascript" src="http://static.cigari.co.uk/simple/js/vendor/share/jquery.sharrre.js"></script>-->
-        <script text="text/javascript" src="{%static 'simple/js/vendor/spin.min.js' %}"></script>
+        <!--<script text="text/javascript" src="{%static 'simple/js/vendor/spin.min.js' %}"></script>
         <script>
         var _gaq = _gaq || [];
         _gaq.push(['_setAccount', 'UA-33071862-2']);
@@ -174,4 +188,65 @@
        $.fn.jaxify.share(window.location.href, document.title );
      </script>
     </body>
+-->
+
+    <!-- New Content -->
+    <body>
+    <!-- Main static nav bar at top -->
+    <div class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="container">
+        <!-- Navbar header -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Univ Boat Club</a>
+        </div>
+        <!-- Main navbar -->
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li class="/active"><a href="/">Home</a></li>
+                <li><a href="/news">News</a></li>
+                <li><a href="/gallery">Gallery</a></li>
+                <li><a href="/sponsors-alumni">Sponsors & Alumni</a></li>
+                <li><a href="/get-involved">Get Involved</a></li>
+                <li class="dropdown">
+                    <a href="/about" class="dropdown-toggle" data-toggle="dropdown">About<span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li class="dropdown-header">Equipment</li>
+                        <li><a href="/boathouse">Boathouse</a></li>
+                        <li><a href="/boats">Boats</a></li>
+                        <li class="divider"></li>
+                        <li class="dropdown-header">People</li>
+                        <li><a href="/committee">Committee</a></li>
+                        <li><a href="/crews">Crews</a></li>
+                    </ul>
+                </li>
+                <li><a href="/contact">Contact Us</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Banner below nav bar -->
+    <div class="masthead"></div>
+
+    <!-- Flatpages block -->
+    {# Loading flatpages for displaying a flatpage list http://docs.djangoproject.com/en/dev/topics/templates/#loading-custom-template-libraries #}
+    <h4>{{ flatpage.title }}</h4>
+    {{ flatpage.content }}
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="{{STATIC_URL}}js/bootstrap.js"></script>
+    </body>
+
+
+
+
 </html>
