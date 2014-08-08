@@ -71,7 +71,7 @@ def renderWithDefaults( request, context ):
 
         aboutMe = paragraphedPageContent( aboutMePage )
     except:
-        aboutMe = 'Nothing to see here'
+        aboutMe = '<span class="FooterText">Copyright 2014, University College Boat Club, Oxford. All enquiries via the <a href="/committee/" class="jaxify">committee</a>.</span>'
 
     newContext = dict( [( 'contactform', form ), ( 'aboutMe', aboutMe ) ] + context.items() )
     return render( request, 'simple/page.html', newContext )

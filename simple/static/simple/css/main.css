@@ -398,7 +398,7 @@ footer
     padding: 10px 5px 10px 5px;
     /*float: left;
     /*width: 33%;*/
-    min-height: 375px;
+    min-height: 50px;
     margin-bottom: 10px;
     margin-top: 10px;
 }
@@ -428,8 +428,7 @@ footer
 
 .socialLinks ul
 {
-    margin: 10px auto 10px auto;
-    max-width: 290px;
+    margin: 10px auto 0px auto;
 
 }
 
@@ -484,13 +483,13 @@ article
     margin-bottom: 5px;
 }
 
-.pageContent a:visited, .pageContent a
+.pageContent a:visited, .pageContent a, .FooterText a:visited, .FooterText a
 {
     color: #ED3758;
 	text-decoration: none;
 }
 
-.pageContent a:hover, .pageContent a:active
+.pageContent a:hover, .pageContent a:active, .FooterText a:hover, .FooterText a:active
 {
 	text-decoration: none;
 	border-bottom: 1px solid #ED3758;
