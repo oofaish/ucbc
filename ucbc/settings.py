@@ -39,6 +39,8 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+    'django.contrib.flatpages', 
     'simple',
 )
 
@@ -65,6 +67,8 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
+SITE_ID = 1
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
@@ -102,6 +106,7 @@ STATICFILES_DIRS = (
 #  os.path.join(BASE_DIR, 'staticfiles'),
 #  '~Projects/UCBC/ucbc/staticfiles/',
 #    os.path.join(BASE_DIR, "static"),
+os.path.join(BASE_DIR, 'bootstrap-3.2.0-dist'),
 )
 
 #STATICFILES_FINDERS = (
