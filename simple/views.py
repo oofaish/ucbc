@@ -35,8 +35,7 @@ def paragraphedPageContent( page ):
 
     content = page.content
     imageTagsAndLocations = re.findall( r'\[\[([\w\s/\\]*);([\w\s/\\]*)\]\]', content )
-    print content
-    print imageTagsAndLocations
+
     for (imageTag,imageLocation) in imageTagsAndLocations:
         if imageLocation == 'left' or imageLocation == 'right':
             css = "display:block; float:" + imageLocation
@@ -71,7 +70,7 @@ def renderWithDefaults( request, context ):
 
         aboutMe = paragraphedPageContent( aboutMePage )
     except:
-        aboutMe = '<span class="FooterText">Copyright 2014, University College Boat Club, Oxford. All enquiries via the <a href="/committee/" class="jaxify">committee</a>.</span>'
+        aboutMe = '<span class="FooterText">Copyright 2014, University College Boat Club, Oxford. All enquiries via the <a href="/committee/" class="jaxify">committee</a>.<br>We (well, Mr. google) uses cookies to understand user intractions with this site.</span>'
 
     newContext = dict( [( 'contactform', form ), ( 'aboutMe', aboutMe ) ] + context.items() )
     return render( request, 'simple/page.html', newContext )
