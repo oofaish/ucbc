@@ -6,7 +6,7 @@ from django.http import Http404
 from django.http import HttpResponse
 from django.core.serializers.json import DjangoJSONEncoder
 from django.views.generic import ListView
-from simple.models import Page, Category
+from simple.models import Page, Category, Crew
 from django.template import loader, Context
 from django.shortcuts import get_object_or_404
 from django.core.exceptions import PermissionDenied
@@ -38,7 +38,6 @@ def ensurePermission( page, request ):
     page.updateReads( request )
 
 def paragraphedPageContent( page ):
-
     content = page.content
     imageTagsAndLocations = re.findall( r'\[\[([\w\s/\\]*);([\w\s/\\]*)\]\]', content )
 
@@ -52,20 +51,20 @@ def paragraphedPageContent( page ):
         else:
             css = ''
             captionCss = ''
-        #try:
-        imageInstance = page.images.get(title=imageTag)
+        try:
+            imageInstance = page.images.get(title=imageTag)
 
-        if len( imageInstance.caption ) > 0:
-            if imageLocation == 'center' or imageLocation=='centre':
-                newImageTag = '<img style="' + css + '" src="' + imageInstance.imageFile.url + '" alt="'+ imageInstance.title + '">'
+            if len( imageInstance.caption ) > 0:
+                if imageLocation == 'center' or imageLocation=='centre':
+                    newImageTag = '<img style="' + css + '" src="' + imageInstance.imageFile.url + '" alt="'+ imageInstance.title + '">'
+                else:
+                    newImageTag = '<img src="' + imageInstance.imageFile.url + '" alt="'+ imageInstance.title + '">'
+                newImageTag = '<figure style="' + css + '">' +newImageTag + '<figcaption style="' + captionCss + '"><i>' + imageInstance.caption + '</i></figcaption></figure>'
             else:
-                newImageTag = '<img src="' + imageInstance.imageFile.url + '" alt="'+ imageInstance.title + '">'
-            newImageTag = '<figure style="' + css + '">' + newImageTag + '<figcaption style="' + captionCss + '">' + imageInstance.caption + '</figcaption></figure>'
-        else:
-            newImageTag = '<img style="' + css + '" src="' + imageInstance.imageFile.url + '" alt="'+ imageInstance.title + '">'
-        content = content.replace( '[[' + imageTag + ';' + imageLocation + ']]', newImageTag )
-        #except:
-        #    print 'failed to get the image', imageTag
+                newImageTag = '<img style="' + css + '" src="' + imageInstance.imageFile.url + '" alt="'+ imageInstance.title + '">'
+            content = content.replace( '[[' + imageTag + ';' + imageLocation + ']]', newImageTag )
+        except:
+            print 'failed to get the image', imageTag
 
     return markdown.markdown( content )
 
@@ -134,7 +133,6 @@ def imagesFromSubfolder( subfolder ):
     return images;
 
 def albumView( request, category, album ):
-    #page = staticViewInstance( request, album )
     page = get_object_or_404( Page, slug=album, categories__name='album' )
     ensurePermission( page, request )
     context = {'page':page}
@@ -144,6 +142,81 @@ def albumView( request, category, album ):
     templateName = 'simple/subs/album.html'
     pageContent = paragraphedPageContent( page );
     context[ 'htmlContent' ] = loader.render_to_string( templateName, { 'page': page, 'pageContent': pageContent, 'images': images} )
+
+    return renderWithDefaults( request, context )
+
+def crewView( request, pk ):
+    crew = get_object_or_404( Crew, id=pk )
+
+    context0 = {'page':crew}
+    context = {}
+
+    if crew.boatType.seats == 8:
+        seats = [ 'Bow', 2, 3, 4, 5, 6, 7, 'Stroke' ]
+    elif crew.boatType.seats == 1:
+        seats = [ 'Sculler' ]
+    elif crew.boatType.seats == 2:
+        seats = [ 'Bow', 'Stroke' ]
+    elif crew.boatType.seats == 4:
+        seats = [ 'Bow', 2, 3, 'Stroke' ]
+    else:
+        seats = []
+
+    numSeats = len( seats )
+    members  = ['The Master'] * numSeats
+
+    if numSeats > 0:
+        if crew.seat1:
+            members[ 0 ] = crew.seat1
+    if numSeats > 1:
+        if crew.seat2:
+            members[ 1 ] = crew.seat2
+    if numSeats > 3:
+        if crew.seat3:
+            members[ 2 ] = crew.seat3
+        if crew.seat4:
+            members[ 3 ] = crew.seat4
+    if numSeats > 4:
+        if crew.seat5:
+            members[ 4 ] = crew.seat5
+        if crew.seat6:
+            members[ 5 ] = crew.seat6
+        if crew.seat7:
+            members[ 6 ] = crew.seat7
+        if crew.seat8:
+            members[ 7 ] = crew.seat8
+
+    images = []
+
+    for imageObject in crew.images.all():
+        fileObject = imageObject.imageFile
+        image = {}
+        image[ 'url' ] = fileObject.url;
+        thumbnail = image[ 'url' ].replace( 'uploads', '_versions' ).replace( fileObject.filename, fileObject.version_name("thumbnail") )
+        image[ 'thumbnailUrl' ] = thumbnail
+        image[ 'title' ] = fileObject.filename_root
+        images.append( image )
+
+    context[ 'seats'   ] = zip( seats, members )
+    context[ 'images' ] = images
+    context['crew'     ] = crew
+    context[ 'pageContent' ] = paragraphedPageContent( crew );
+    templateName = 'simple/subs/crew.html'
+    context0[ 'htmlContent' ] = loader.render_to_string( templateName, context )
+
+    return renderWithDefaults( request, context0 )
+
+def crewsView( request, category ):
+    page = get_object_or_404( Page, categories__name='crews' )
+    ensurePermission( page, request )
+
+    context = {'page':page}
+
+    crews = Crew.objects.filter(status=1 ).order_by( '-season__startYear', 'priority', '-boat__priority' )
+
+    templateName = 'simple/subs/crews.html'
+    pageContent = paragraphedPageContent( page );
+    context[ 'htmlContent' ] = loader.render_to_string( templateName, { 'page': page, 'pageContent': pageContent, 'crews': crews } )
 
     return renderWithDefaults( request, context )
 

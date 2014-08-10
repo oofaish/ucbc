@@ -1,0 +1,6 @@
+{{pageContent | safe }}
+    <ul>
+    {% for crew in crews %}
+        <li><a class='jaxify' href="{% url 'simple:crewView' crew.id %}">{{crew.title}}</a></li>
+    {% endfor %}
+    </ul>
