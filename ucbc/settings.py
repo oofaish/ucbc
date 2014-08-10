@@ -42,6 +42,7 @@ INSTALLED_APPS = (
     #JEFF'django.contrib.sites',
     #JEFF'django.contrib.flatpages',
     'simple',
+    'django_evolution',
 )
 
 MIDDLEWARE_CLASSES = (

@@ -64,7 +64,7 @@ class Page( models.Model ):
     inlinestyle   = models.TextField(blank=True)
     status        = models.PositiveSmallIntegerField(default=1)#0 means dont show it, 1 means show it
     password      = models.CharField(max_length=20,blank=True)
-
+    crew          = models.ManyToManyField(blank=True,null=True)
 
     def __unicode__( self ):
         if not self.status:
@@ -112,22 +112,63 @@ class Role( models.Model ):
     def __unicode__(self):
         return self.name
 
+class Boat( models.Model ):#M1, M2, M3
+    name = models.CharField( max_length=20 )
+    priority = models.SmallIntegerField(default=0)
+
+    def __unicode__(self):
+        return self.name
+
+class BoatType( models.Model ):#VIII, IV
+    name    = models.CharField( max_length=20 )
+    seats   = models.PositiveSmallIntegerField(default=8)
+    coxless = models.BooleanField(default=False)
+    def __unicode__(self):
+        return self.name
+
 class CommitteeRoleTitle( models.Model ):
     name = models.CharField( max_length=50 )
 
     def __unicode__(self):
         return self.name
 
-class CommitteeRole( models.Model ):
-    title = models.ForeignKey(CommitteeRoleTitle)
-    year  = models.PositiveIntegerField(default=0)
+class Competition( models.Model ):
+    name = models.CharField( max_length=50 )
 
     def __unicode__(self):
         return self.name
 
+class Term( models.Model ):
+    name = models.CharField( max_length=20 )
+
+    def __unicode__(self):
+        return self.name
+
+class Season( models.Model ):
+    startYear     = models.PositiveIntegerField(default=0)
+    endYear       = models.PositiveIntegerField(default=0)
+    titleInternal = models.CharField( max_length=50,blank=True)
+
+    def __unicode__( self ):
+        return self.title
+
+    @property
+    def title(self):
+        if len( self.titleInternal ) > 0:
+            return self.titleInternal
+        else:
+            return str( self.startYear ) + '/' + str( self.endYear )
+
+class CommitteeRole( models.Model ):
+    title  = models.ForeignKey(CommitteeRoleTitle)
+    season = models.ForeignKey( Season );
+
+    def __unicode__(self):
+        return self.title.name + ' ' + self.season.title
+
 class Member( models.Model ):
-    name           = models.CharField( max_length=100, blank = True )
-    nickname       = models.CharField( max_length=50  )
+    name           = models.CharField( max_length=100 )
+    nickname       = models.CharField( max_length=50, blank = True  )
     summary        = models.TextField(blank=True)
     roles          = models.ManyToManyField(Role, blank=True )
     committeeRoles = models.ManyToManyField(CommitteeRole, blank=True )
@@ -144,36 +185,27 @@ class Member( models.Model ):
     def longTitle(self):
         return self.title
 
-class Season( models.Model ):
-    startYear     = models.PositiveIntegerField(default=0)
-    endYear       = models.PositiveIntegerField(default=0)
-    titleInternal = models.CharField( max_length=50)
-
-    def __unicode__( self ):
-        return self.title
-
-    @property
-    def title(self):
-        if len( self.titleInternal ) > 0:
-            return self.titleInternal
-        else:
-            return str( startYear ) + '/' + str( endYear )
-
 class Crew( models.Model ):
     name          = models.CharField( max_length=100, blank = True )
     season        = models.ForeignKey( Season )
+    boat          = models.ForeignKey(Boat, null=True, blank=True)
+    boatType      = models.ForeignKey(BoatType, null=True, blank=True)
+    competition   = models.ForeignKey(Competition, null=True, blank=True)
+    Term          = models.ForeignKey(Term, null=True, blank=True)
     summary       = models.TextField(blank=True)
     reports       = models.ManyToManyField( Page,blank=True )
     images        = models.ManyToManyField(Image, blank=True )
+
+    priority      = models.SmallIntegerField(default=0)
     status        = models.PositiveSmallIntegerField(default=1)#0 means dont show it, 1 means show it
-    seat1         = models.ForeignKey(Member, blank=True, related_name='seat1s' )
-    seat2         = models.ForeignKey(Member, blank=True, related_name='seat2s' )
-    seat3         = models.ForeignKey(Member, blank=True, related_name='seat3s' )
-    seat4         = models.ForeignKey(Member, blank=True, related_name='seat4s' )
-    seat5         = models.ForeignKey(Member, blank=True, related_name='seat5s' )
-    seat6         = models.ForeignKey(Member, blank=True, related_name='seat6s' )
-    seat7         = models.ForeignKey(Member, blank=True, related_name='seat7s' )
-    seat8         = models.ForeignKey(Member, blank=True, related_name='seat8s' )
+    seat1         = models.ForeignKey(Member, null=True, blank=True, related_name='seat1s' )
+    seat2         = models.ForeignKey(Member, null=True, blank=True, related_name='seat2s' )
+    seat3         = models.ForeignKey(Member, null=True, blank=True, related_name='seat3s' )
+    seat4         = models.ForeignKey(Member, null=True, blank=True, related_name='seat4s' )
+    seat5         = models.ForeignKey(Member, null=True, blank=True, related_name='seat5s' )
+    seat6         = models.ForeignKey(Member, null=True, blank=True, related_name='seat6s' )
+    seat7         = models.ForeignKey(Member, null=True, blank=True, related_name='seat7s' )
+    seat8         = models.ForeignKey(Member, null=True, blank=True, related_name='seat8s' )
     subs          = models.ManyToManyField(Member, blank=True, related_name='subs' )
     coxes         = models.ManyToManyField(Member, blank=True, related_name='coxes' )
     coaches       = models.ManyToManyField(Member, blank=True, related_name='coaches' )
@@ -183,7 +215,22 @@ class Crew( models.Model ):
             return self.name + ' - ' + self.season.title + ' (Hidden)'
         else:
             return self.name + ' - ' + self.season.title + ' (Visible)'
+    @property
+    def content(self):
+        return self.summary
 
     @property
-    def longTitle(self):
-        return self.title
+    def title(self):
+        r = '';
+        if self.boat:
+            r = r + ' ' + self.boat.name
+        if self.Term:
+            r = r + ' ' + self.Term.name
+        if self.season:
+            r = r + ' ' + self.season.title
+        if self.boatType:
+            r = r + ' ' + self.boatType.name
+
+        if len( r ) == 0:
+            r = '<unnamed>'
+        return r

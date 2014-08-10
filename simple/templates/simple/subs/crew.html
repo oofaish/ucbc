@@ -1,0 +1,63 @@
+{% load staticfiles %}
+
+<br>
+<h2>Results</h2>
+{{pageContent | safe }}
+<h2>Crew Order</h2><br>
+
+{% for seat in seats %}
+    <h4><span class="Seat">{{seat|first}}:
+        <i>{% with seat|last as member %}{{member.name}}{% endwith %}</i></span>
+    </h4><br>
+{% endfor %}
+{% if not crew.boatType.coxless %}
+<h4><span class="Seat">Cox:
+{% for cox in crew.coxes.all %}
+    <i>{{cox.name}},</i></span>
+{% endfor %}
+{% endif %}
+</h4>
+<br>
+{% if crew.coachs.all|length %}
+<h4><span class="Seat">Coach:
+{% for coach in crew.coaches.all %}
+    <i>{{coach.name}},</i></span>
+{% endfor %}
+</h4>
+<br>
+{% endif %}
+<br>
+<h2>Crew Photos</h2>
+
+<div id="blueimp-gallery" class="gallery blueimp-gallery blueimp-gallery-controls">
+    <div class="slides"></div>
+    <h3 class="title"></h3>
+    <a class="prev">‹</a>
+    <a class="next">›</a>
+    <a class="close">×</a>
+    <a class="play-pause"></a>
+    <ol class="indicator"></ol>
+</div>
+<div id="links" class="gallery">
+    {% for image in images %}
+    <a href="{{ image.url }}" title="{{ image.title }}">
+        <img src="{{ image.thumbnailUrl }}" alt="{{ image.title }}">
+    </a>
+    {% endfor %}
+</div>
+
+<br>
+<br>
+<a class='jaxify' href="{% url 'simple:crewsView' 'crews' %}"><i class="fa fa-arrow-circle-left fa-1x"></i> back to Crews List</a>
+
+<script src="{%static 'simple/js/vendor/gallery/js/blueimp-gallery.min.js' %}"></script>
+<script>
+document.getElementById('links').onclick = function (event) {
+    event = event || window.event;
+    var target = event.target || event.srcElement,
+        link = target.src ? target.parentNode : target,
+        options = {index: link, event: event},
+        links = this.getElementsByTagName('a');
+    blueimp.Gallery(links, options);
+};
+</script>
