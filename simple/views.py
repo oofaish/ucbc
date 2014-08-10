@@ -17,6 +17,12 @@ from django.db.models import Q
 import markdown
 from django import template
 
+from filebrowser.sites import site
+from filebrowser.base import FileListing
+from filebrowser.base import FileObject
+from os.path import join
+
+from random import shuffle
 
 class ContactForm( forms.Form ):
     defaultAttr = [ ( 'required', '' ), ( 'class', 'input' ) ]
@@ -65,14 +71,15 @@ def paragraphedPageContent( page ):
 
 def renderWithDefaults( request, context ):
     form = ContactForm()
+
     try:
-        aboutMePage = Page.objects.get(slug='hidden-about-me')
+        footerPage = Page.objects.get(slug='hidden-footer')
 
-        aboutMe = paragraphedPageContent( aboutMePage )
+        footer = paragraphedPageContent( footerPage )
     except:
-        aboutMe = '<span class="FooterText">Copyright 2014, University College Boat Club, Oxford. All enquiries via the <a href="/committee/" class="jaxify">committee</a>.<br>We (well, Mr. google) uses cookies to understand user intractions with this site.</span>'
+        footer = 'the boat club president is a nerd'
 
-    newContext = dict( [( 'contactform', form ), ( 'aboutMe', aboutMe ) ] + context.items() )
+    newContext = dict(  context.items() + [( 'contactform', form ), ( 'footer', footer ) ] )
     return render( request, 'simple/page.html', newContext )
 
 
@@ -107,6 +114,38 @@ def ensureList( category ):
     category = Category.objects.get(name=category)
     if len( category.subCategoryName ) == 0:
         raise Http404
+
+def imagesFromSubfolder( subfolder ):
+    filelisting = FileListing( join( site.storage.location, 'uploads/gallery', subfolder ), sorting_by='name', sorting_order='desc')
+
+    images = []
+
+    for fileObject in filelisting.files_walk_total():
+        image = {}
+        if fileObject.width != None:
+            directory = fileObject.dirname.split( '/mediaroot/uploads' )[1]
+            fileName = '/media/uploads' + join( directory, fileObject.filename ) #fileObject.url
+            thumbnail = '/media/_versions' + join( directory, fileObject.version_name("thumbnail") )
+            image[ 'url' ] = fileName
+            image[ 'thumbnailUrl' ] = thumbnail
+            #fileObject.version_generate("thumbnail")
+            image[ 'title' ] = fileObject.filename_root
+            images.append( image )
+    return images;
+
+def albumView( request, category, album ):
+    #page = staticViewInstance( request, album )
+    page = get_object_or_404( Page, slug=album, categories__name='album' )
+    ensurePermission( page, request )
+    context = {'page':page}
+
+    images = imagesFromSubfolder( album )
+    shuffle( images )
+    templateName = 'simple/subs/album.html'
+    pageContent = paragraphedPageContent( page );
+    context[ 'htmlContent' ] = loader.render_to_string( templateName, { 'page': page, 'pageContent': pageContent, 'images': images} )
+
+    return renderWithDefaults( request, context )
 
 def listViewStuff( category, json, request ):
     ensureList( category )

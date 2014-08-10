@@ -1,0 +1,36 @@
+{% load staticfiles %}
+
+{{pageContent | safe }}
+<div id="blueimp-gallery" class="gallery blueimp-gallery blueimp-gallery-controls">
+    <div class="slides"></div>
+    <h3 class="title"></h3>
+    <a class="prev">‹</a>
+    <a class="next">›</a>
+    <a class="close">×</a>
+    <a class="play-pause"></a>
+    <ol class="indicator"></ol>
+</div>
+
+<div id="links" class="gallery">
+    {% for image in images %}
+    <a href="{{ image.url }}" title="{{ image.title }}">
+        <img src="{{ image.thumbnailUrl }}" alt="{{ image.title }}">
+    </a>
+    {% endfor %}
+</div>
+
+<br>
+<a class='jaxify' href="{% url 'simple:photosView' 'photos' %}"><i class="fa fa-arrow-circle-left fa-1x"></i> back to Album List</a>
+
+
+<script src="{%static 'simple/js/vendor/gallery/js/blueimp-gallery.min.js' %}"></script>
+<script>
+document.getElementById('links').onclick = function (event) {
+    event = event || window.event;
+    var target = event.target || event.srcElement,
+        link = target.src ? target.parentNode : target,
+        options = {index: link, event: event},
+        links = this.getElementsByTagName('a');
+    blueimp.Gallery(links, options);
+};
+</script>

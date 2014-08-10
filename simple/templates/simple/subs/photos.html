@@ -1,0 +1,6 @@
+{{pageContent | safe }}
+    <ul>
+    {% for album in posts %}
+        <li><a class='jaxify' href="{% url 'simple:albumView' 'photos' album.slug %}">{{album.title}}</a></li>
+    {% endfor %}
+    </ul>

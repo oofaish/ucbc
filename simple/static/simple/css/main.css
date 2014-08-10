@@ -477,19 +477,13 @@ article
 	margin-bottom: 5px;
 }
 
-.aboutMe p
-{
-    text-align: left;
-    margin-bottom: 5px;
-}
-
-.pageContent a:visited, .pageContent a, .FooterText a:visited, .FooterText a
+.pageContent :not(.blueimp-gallery) a:visited, .pageContent :not(.gallery) a, .FooterText a:visited, .FooterText a
 {
     color: #ED3758;
 	text-decoration: none;
 }
 
-.pageContent a:hover, .pageContent a:active, .FooterText a:hover, .FooterText a:active
+.pageContent :not(.blueimp-gallery) a:hover, .pageContent :not(.gallery) a:active, .FooterText a:hover, .FooterText a:active
 {
 	text-decoration: none;
 	border-bottom: 1px solid #ED3758;
@@ -504,6 +498,29 @@ article
 .StuffILike
 {
 
+}
+
+.gallery a, .gallery a:hover, .gallery a:focus
+{
+    text-decoration: none !important;
+}
+
+#links.gallery a
+{
+    border-bottom: none !important;
+}
+#links.gallery img
+{
+    box-shadow:none;
+    /*width: 60px;
+    height: 60px;*/
+}
+
+
+.gallery >a > img
+{
+    padding: 0;
+    margin: 0;
 }
 
 .ThingLI

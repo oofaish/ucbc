@@ -11,12 +11,7 @@ from django.conf import settings
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    # Examples:
-    # url(r'^$', 'ucbc.views.home', name='home'),
-    #for now there is only one app:
     (r'^admin/filebrowser/', include(site.urls)),
-    #(r'^admin/filebrowser/', include('filebrowser.sites.site.urls')),
-    #(r'^grappelli/', include('grappelli.urls')),
     url( r'^admin/', include( admin.site.urls ) ),
     url( r'^', include( 'simple.urls', namespace = 'simple' ) ),
 )
