@@ -55,7 +55,7 @@ class Page( models.Model ):
     created       = models.DateTimeField(default=datetime.now())
     updated       = models.DateTimeField(auto_now=True)
     kudos         = models.PositiveIntegerField(default=0)
-    showKudos     = models.BooleanField(default=True)
+    showKudos     = models.BooleanField(default=False)
     reads         = models.PositiveIntegerField(default=0)
     images        = models.ManyToManyField(Image, blank=True )
     stylesheets   = models.ManyToManyField(Stylesheet, blank=True )
@@ -105,3 +105,85 @@ class Page( models.Model ):
     @property
     def summary(self):
         return self.content[0:min(100,len(self.content))]
+
+class Role( models.Model ):
+    name = models.CharField( max_length=50 )
+
+    def __unicode__(self):
+        return self.name
+
+class CommitteeRoleTitle( models.Model ):
+    name = models.CharField( max_length=50 )
+
+    def __unicode__(self):
+        return self.name
+
+class CommitteeRole( models.Model ):
+    title = models.ForeignKey(CommitteeRoleTitle)
+    year  = models.PositiveIntegerField(default=0)
+
+    def __unicode__(self):
+        return self.name
+
+class Member( models.Model ):
+    name           = models.CharField( max_length=100, blank = True )
+    nickname       = models.CharField( max_length=50  )
+    summary        = models.TextField(blank=True)
+    roles          = models.ManyToManyField(Role, blank=True )
+    committeeRoles = models.ManyToManyField(CommitteeRole, blank=True )
+    images         = models.ManyToManyField(Image, blank=True )
+    status         = models.PositiveSmallIntegerField(default=1)#0 means dont show it, 1 means show it
+
+    def __unicode__( self ):
+        if not self.status:
+            return self.name + ' (Hidden)'
+        else:
+            return self.name + ' (Visible)'
+
+    @property
+    def longTitle(self):
+        return self.title
+
+class Season( models.Model ):
+    startYear     = models.PositiveIntegerField(default=0)
+    endYear       = models.PositiveIntegerField(default=0)
+    titleInternal = models.CharField( max_length=50)
+
+    def __unicode__( self ):
+        return self.title
+
+    @property
+    def title(self):
+        if len( self.titleInternal ) > 0:
+            return self.titleInternal
+        else:
+            return str( startYear ) + '/' + str( endYear )
+
+class Crew( models.Model ):
+    name          = models.CharField( max_length=100, blank = True )
+    season        = models.ForeignKey( Season )
+    summary       = models.TextField(blank=True)
+    reports       = models.ManyToManyField( Page,blank=True )
+    images        = models.ManyToManyField(Image, blank=True )
+    status        = models.PositiveSmallIntegerField(default=1)#0 means dont show it, 1 means show it
+    seat1         = models.ForeignKey(Member, blank=True, related_name='seat1s' )
+    seat2         = models.ForeignKey(Member, blank=True, related_name='seat2s' )
+    seat3         = models.ForeignKey(Member, blank=True, related_name='seat3s' )
+    seat4         = models.ForeignKey(Member, blank=True, related_name='seat4s' )
+    seat5         = models.ForeignKey(Member, blank=True, related_name='seat5s' )
+    seat6         = models.ForeignKey(Member, blank=True, related_name='seat6s' )
+    seat7         = models.ForeignKey(Member, blank=True, related_name='seat7s' )
+    seat8         = models.ForeignKey(Member, blank=True, related_name='seat8s' )
+    subs          = models.ManyToManyField(Member, blank=True, related_name='subs' )
+    coxes         = models.ManyToManyField(Member, blank=True, related_name='coxes' )
+    coaches       = models.ManyToManyField(Member, blank=True, related_name='coaches' )
+
+    def __unicode__( self ):
+        if not self.status:
+            return self.name + ' - ' + self.season.title + ' (Hidden)'
+        else:
+            return self.name + ' - ' + self.season.title + ' (Visible)'
+
+    @property
+    def longTitle(self):
+        return self.title

@@ -39,8 +39,8 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.sites',
-    'django.contrib.flatpages', 
+    #JEFF'django.contrib.sites',
+    #JEFF'django.contrib.flatpages',
     'simple',
 )
 
@@ -68,6 +68,7 @@ DATABASES = {
     }
 }
 
+#JEFF
 SITE_ID = 1
 
 # Internationalization
