@@ -1,23 +1,35 @@
 {% load staticfiles %}
 
 <br>
+{% if pageContent|length %}
 <h2>Results</h2>
 {{pageContent | safe }}
-<h2>Crew Order</h2><br>
+{% endif %}
 
+<h2>Crew Order</h2><br>
+<ul>
 {% for seat in seats %}
-    <h4><span class="Seat">{{seat|first}}:
-        <i>{% with seat|last as member %}{{member.name}}{% endwith %}</i></span>
-    </h4><br>
+    <li>{{seat|first}}:
+        <i>{% with seat|last as member %}{{member.name}}{% endwith %}</i>
+    </li>
 {% endfor %}
 {% if not crew.boatType.coxless %}
-<h4><span class="Seat">Cox:
+<li>Cox:
 {% for cox in crew.coxes.all %}
-    <i>{{cox.name}},</i></span>
+    <i>{{cox.name}},</i>
 {% endfor %}
 {% endif %}
-</h4>
-<br>
+</li>
+</ul>
+{% if crew.reports.all|length %}
+<h2>Reports</h2>
+<ul>
+{% for page in crew.reports.all %}
+    <li><a href="{% url 'simple:newsPostView' 'news' page.created.year page.slug %}">{{page.title}}</a></li>
+{% endfor %}
+</ul>
+{% endif %}
+
 {% if crew.coachs.all|length %}
 <h4><span class="Seat">Coach:
 {% for coach in crew.coaches.all %}
