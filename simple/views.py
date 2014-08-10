@@ -38,7 +38,7 @@ def ensurePermission( page, request ):
     page.updateReads( request )
 
 def paragraphedPageContent( page ):
-    content = page.content
+    content = page.content1
     imageTagsAndLocations = re.findall( r'\[\[([\w\s/\\]*);([\w\s/\\]*)\]\]', content )
 
     for (imageTag,imageLocation) in imageTagsAndLocations:
@@ -191,8 +191,8 @@ def crewView( request, pk ):
     for imageObject in crew.images.all():
         fileObject = imageObject.imageFile
         image = {}
-        image[ 'url' ] = fileObject.url;
-        thumbnail = image[ 'url' ].replace( 'uploads', '_versions' ).replace( fileObject.filename, fileObject.version_name("thumbnail") )
+        image[ 'url' ] = fileObject.original.url;
+        thumbnail = image[ 'url' ].replace( 'uploads', '_versions' ).replace( fileObject.original_filename, fileObject.original.version_name("thumbnail") )
         image[ 'thumbnailUrl' ] = thumbnail
         image[ 'title' ] = fileObject.filename_root
         images.append( image )

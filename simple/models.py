@@ -64,7 +64,10 @@ class Page( models.Model ):
     inlinestyle   = models.TextField(blank=True)
     status        = models.PositiveSmallIntegerField(default=1)#0 means dont show it, 1 means show it
     password      = models.CharField(max_length=20,blank=True)
-    crew          = models.ManyToManyField(blank=True,null=True)
+
+    @property
+    def content1(self):
+        return self.content
 
     def __unicode__( self ):
         if not self.status:
@@ -150,7 +153,7 @@ class Season( models.Model ):
     titleInternal = models.CharField( max_length=50,blank=True)
 
     def __unicode__( self ):
-        return self.title
+        return unicode( self.title )
 
     @property
     def title(self):
@@ -193,6 +196,7 @@ class Crew( models.Model ):
     competition   = models.ForeignKey(Competition, null=True, blank=True)
     Term          = models.ForeignKey(Term, null=True, blank=True)
     summary       = models.TextField(blank=True)
+    #content       = models.TextField(blank=True)
     reports       = models.ManyToManyField( Page,blank=True )
     images        = models.ManyToManyField(Image, blank=True )
 
@@ -216,7 +220,7 @@ class Crew( models.Model ):
         else:
             return self.name + ' - ' + self.season.title + ' (Visible)'
     @property
-    def content(self):
+    def content1(self):
         return self.summary
 
     @property
@@ -224,8 +228,8 @@ class Crew( models.Model ):
         r = '';
         if self.boat:
             r = r + ' ' + self.boat.name
-        if self.Term:
-            r = r + ' ' + self.Term.name
+        if self.competition:
+            r = r + ' ' + self.competition.name
         if self.season:
             r = r + ' ' + self.season.title
         if self.boatType:

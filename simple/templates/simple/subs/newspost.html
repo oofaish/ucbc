@@ -1,4 +1,12 @@
 {{pageContent | safe }}
+{% if page.crew_set.all|length > 0 %}
+<h2>Crew</h2>
+<ul>
+{% for crew in page.crew_set.all %}
+    <li><a href="{% url 'simple:crewView' crew.id %}">{{crew.title}}</a></li>
+{% endfor %}
+</ul>
+{% endif %}
 <br>
 <p class="smallItalicText">Posted on {{page.created}}</p>
 <p class="postTags">posted under:
@@ -8,4 +16,5 @@
 	{% for tag in page.tags.all %}<span class="postTag">{{tag.name}}</span>{% endfor %}
 {% endif %}
 </p>
+
 <a class='jaxify' href="{% url 'simple:newsView' 'news' %}"><i class="fa fa-arrow-circle-left fa-1x"></i> back to News and Results</a>
