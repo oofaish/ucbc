@@ -16,7 +16,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'WILL_HAVE_TO_CHANGE_THIS_BAD_BOY'#FIXME
+SECRET_KEY = 'CHANGE_THIS'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True #FIXME change this
@@ -42,7 +42,7 @@ INSTALLED_APPS = (
     #JEFF'django.contrib.sites',
     #JEFF'django.contrib.flatpages',
     'simple',
-    'django_evolution',
+    #'django_evolution',
     #'south',
 )
 

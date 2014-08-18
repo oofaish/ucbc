@@ -205,7 +205,7 @@ $(document).ready(function(){
 
 	//because iOS sucks and doesnt quiet respect the CSS3 hover property:
     $('.touch .wideNav ul li.respectHover').click( function( e ){
-    	e.preventDefault();
+    	//e.preventDefault();
     	displaySecondNav( this );
     } );
 });

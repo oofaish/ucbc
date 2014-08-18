@@ -27,12 +27,12 @@
         <meta property="og:title" content="{{page.longTitle}}" />
         <meta property="og:description" content="{{page.summary}}" />
         <meta property="og:site_name" content="University College Boat Club, Oxford" />
-        <meta property="og:image" content="{% static 'simple/img/ucbcsmall.jpg' %}" />
+        <meta property="og:image" content="/media/_versions/siteStatic/crest_small.png" />
         <meta name="twitter:card" content="summary" />
         <meta name="twitter:site" content="@univbc" />
         <meta name="twitter:creator" content="@univbc"/>
         <meta name="twitter:title" content="{{page.longTitle}}" />
-        <meta property="og:image" content="{% static 'simple/img/ucbcsmall.jpg' %}" />
+        <meta property="og:image" content="/media/_versions/siteStatic/crest_small.png" />
         <meta name="twitter:description" content="{{page.summary}}" />
 
         <meta name="apple-mobile-web-app-capable" content="yes">
@@ -52,7 +52,7 @@
             </div>
             </div>
                 <a class="jaxify crest" href="/"><img src="/media/uploads/siteStatic/crest.png"><h1>UCBC</h1></a>
-                <a class="dbHeaderLogo" href="/"><h3>Sponsored by</h3><img src="/media/uploads/siteStatic/db_square.jpg"></a>
+                <a class="dbHeaderLogo" href="/sponsors/"><h3>Sponsored by</h3><img src="/media/uploads/siteStatic/db_square.jpg"><h3>Deutsche Bank</h3></a>
             <nav class="wideNav">
                 <ul class='NavigationUL firstNav'>
                     <li class="NavigationLI"><a class="mainColorBackground headerButton jaxify" href="/news/">News & Results</a></li>
@@ -116,38 +116,13 @@
 
     </div>
 
-    <!--
-    <div class="footerDiv clearBackground contactFormDiv">
-        <h3 class="formMessage">Send Me A Wink<img class="formBusy" style="display:none" src="{% static 'simple/img/smallLoader.gif' %}"></h3>
-        <form class="contactForm" action="/submitContactForm" method="post">{% csrf_token %}
-            {{ contactform.as_p }}
-            <div class="clearfix"></div>
-            <label></label>
-            <input class="submitButton input" type="submit" value="Send" />
-            <div class="clearfix"></div>
-        </form>
-
-    </div>
-    <div class="footerDiv clearBackground socialLinks">
-        <h3>Find Me Doing My Thing</h3>
-<!--        <ul>
-        </ul>-->
-    </div>
-
 </footer>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="{%static 'simple/js/vendor/jquery-1.10.2.min.js'%}"><\/script>')</script>
-        <script text="text/javascript" src="{%static 'simple/js/vendor/qpscroll.js' %}"></script>
-        <script type="text/javascript" src="{%static 'simple/js/vendor/kudos/jquery.cookie.js' %}"></script>
-        <script type="text/javascript" src="{%static 'simple/js/vendor/kudos/kudos.js' %}"></script>
-        <!--<script type="text/javascript" src="http://static.cigari.co.uk/simple/js/vendor/share/jquery.sharrre.js"></script>-->
-        <script text="text/javascript" src="{%static 'simple/js/vendor/spin.min.js' %}"></script>
-        <script>
-        var _gaq = _gaq || [];
-        _gaq.push(['_setAccount', 'UA-33071862-2']);
-        _gaq.push(['_setDomainName', '.ucbc.org.uk']);
-        _gaq.push(['_trackPageview']);
-        </script>
+        <script src="{%static 'simple/js/vendor/qpscroll.js' %}"></script>
+        <script src="{%static 'simple/js/vendor/kudos/jquery.cookie.js' %}"></script>
+        <script src="{%static 'simple/js/vendor/kudos/kudos.js' %}"></script>
+        <script src="{%static 'simple/js/vendor/spin.min.js' %}"></script>
 
         <script src="{%static 'simple/js/plugins.js'%}"></script>
         <script src="{%static 'simple/js/main.js'%}"></script>
@@ -168,13 +143,15 @@
             {% endif %}
             {% block finalScript %}{% endblock %}
        </script>
-       <script type="text/javascript">
-       (function() {
-         var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-         ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-       })();
-       $.fn.jaxify.share(window.location.href, document.title );
-     </script>
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-33071862-2', 'auto');
+      ga('send', 'pageview');
+
+    </script>
     </body>
 </html>
