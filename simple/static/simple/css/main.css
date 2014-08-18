@@ -107,10 +107,26 @@ textarea {
         display: block;
         position: absolute;
         right: 50px;
-        top: 50px;
+        top: 40px;
+        z-index: 1000;
     }
 
-    .dbHeaderLogo > h3, .crest h1
+    .dbHeaderLogo:hover
+    {
+        opacity: 0.95;
+    }
+
+    .dbHeaderLogo > h3
+    {
+        color: #0018a8;
+        font-weight: 700;
+        width: 110px;
+        text-align: center;
+        font-size: 0.9rem;
+
+    }
+
+    .crest h1
     {
         color: #0018a8;
         font-weight: 700;
@@ -130,6 +146,14 @@ textarea {
 
     .dbHeaderLogo > img, .crest img
     {
+        height: 110px;
+        width: auto;
+    }
+
+
+
+    .crest img
+    {
         height: 150px;
         width: auto;
     }
@@ -144,6 +168,7 @@ textarea {
         top: 40px;
         left: 30px;
         position: absolute;
+        z-index: 1000;
     }
 
     nav
@@ -477,6 +502,14 @@ article
 	margin-bottom: 5px;
 }
 
+.pageContent:after
+{
+   content: " ";
+   display: block;
+   height: 0;
+   clear: both;
+}
+
 .pageContent :not(.blueimp-gallery) a:visited, .pageContent :not(.gallery) a, .FooterText a:visited, .FooterText a
 {
     color: #ED3758;
@@ -654,9 +687,21 @@ article em
  {
      left: 40px;
  }
+
+    .gapHack
+    {
+        display: none;
+    }
+
+
 }
 
 @media only screen and (max-width: 600px) {
+
+    .gapHack
+    {
+        display: none;
+    }
 
     /*
 .clearBackground
@@ -671,6 +716,12 @@ html
     background: white;
 	background-attachment: fixed;
 }
+
+    .wideNav
+    {
+    margin-left: 0;
+    }
+
 
 header
 {
