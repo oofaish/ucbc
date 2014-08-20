@@ -1,6 +1,23 @@
 {{pageContent | safe }}
     <ul>
-    {% for crew in crews %}
-        <li><a class='jaxify' href="{% url 'simple:crewView' crew.id %}">{{crew.title}}</a></li>
+    {% for seasonAndCrews in crewsBySeason %}
+
+        <li>{{ seasonAndCrews | first }}
+            <ul>
+            {% with seasonAndCrews|last as compsAndCrews %}
+                {% for compAndCrews in compsAndCrews %}
+                <li>{{ compAndCrews | first }}
+                    {% with compAndCrews|last as crews %}
+                        <ul>
+                            {% for crew in crews %}
+                            <li><a class='jaxify' href="{% url 'simple:crewView' crew.id %}">{{crew.shortTitle}}</a></li>
+                            {% endfor %}
+                        </ul>
+                    {% endwith %}
+                </li>
+                {% endfor %}
+            {% endwith %}
+            </ul>
+        </li>
     {% endfor %}
     </ul>

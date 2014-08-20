@@ -6,6 +6,8 @@ staticfiles
 staticfiles/
 mediaroot/
 
+db.sqlite3
+db.sqlite3-SIMPLE
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
