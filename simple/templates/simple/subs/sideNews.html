@@ -1,0 +1,10 @@
+<div class="sideNews">
+    {% for post in posts %}
+    <div>
+        <a href="{% url 'simple:newsPostView' 'news' post.year post.slug %}" class="sideNewsInner">
+            <span>{{post.title}}</span>
+            <img src="{{ post.image }}">
+        </a>
+    </div>
+    {% endfor %}
+</div>

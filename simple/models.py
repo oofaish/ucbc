@@ -224,6 +224,16 @@ class Crew( models.Model ):
         return self.summary
 
     @property
+    def shortTitle(self):
+        r = '';
+        if self.boat:
+            r = r + self.boat.name
+
+        if len( r ) == 0:
+            r = '<unnamed>'
+        return r
+
+    @property
     def title(self):
         r = '';
         if self.boat:
@@ -238,3 +248,4 @@ class Crew( models.Model ):
         if len( r ) == 0:
             r = '<unnamed>'
         return r
+

@@ -23,6 +23,7 @@ from filebrowser.base import FileObject
 from os.path import join
 
 from random import shuffle
+from random import randint
 
 class ContactForm( forms.Form ):
     defaultAttr = [ ( 'required', '' ), ( 'class', 'input' ) ]
@@ -71,14 +72,47 @@ def paragraphedPageContent( page ):
 def renderWithDefaults( request, context ):
     form = ContactForm()
 
+    #page     = Page.objects.get(slug='news')
+    posts    = Page.objects.filter(status=1,categories__name='newspost' ).order_by( '-created' )
+    maxPosts = min( len( posts ), 8 )
+    posts    = posts[0:maxPosts-1]
+
+    postsToPrint = []
+
+    for post in posts:
+        postDic = {}
+        postDic[ 'title' ] = post.title
+        postDic[ 'year' ]  = post.created.year
+        postDic[ 'slug' ]  = post.slug
+        images = post.images.all()
+        postDic[ 'image' ] = '/media/uploads/siteStatic/crest.png'
+        if len( images ) > 0:
+            i = randint( 0, len( images ) - 1 )
+            postDic[ 'image' ] = images[ i ].imageFile.url
+        else:
+            crews = post.crew_set.all()
+            if len( crews ) > 0:
+                is1 = range( 0, len( crews ) )
+                shuffle( is1 )
+                for i in is1:
+                    images = crews[ i ].images.all()
+                    if len( images ) > 0:
+                        i = randint( 0, len( images ) - 1 )
+                        postDic[ 'image' ] = images[ i ].imageFile.url
+                        break
+
+        postsToPrint.append( postDic )
+
+    templateName = 'simple/subs/sideNews.html'
+    sideNews = loader.render_to_string( templateName, { 'posts': postsToPrint } )
+
     try:
         footerPage = Page.objects.get(slug='hidden-footer')
-
         footer = paragraphedPageContent( footerPage )
     except:
         footer = 'the boat club president is a nerd'
 
-    newContext = dict(  context.items() + [( 'contactform', form ), ( 'footer', footer ) ] )
+    newContext = dict(  context.items() + [( 'contactform', form ), ( 'footer', footer ), ('sideNews', sideNews ) ] )
     return render( request, 'simple/page.html', newContext )
 
 
@@ -213,10 +247,29 @@ def crewsView( request, category ):
     context = {'page':page}
 
     crews = Crew.objects.filter(status=1 ).order_by( '-season__startYear', 'priority', '-boat__priority' )
+    seasons = [];
+    for crew in crews:
+        if not crew.season.title in seasons:
+            seasons.append( crew.season.title )
+
+    emptyListHack = [];
+
+    crewsBySeason = zip( seasons, [ emptyListHack[:] for x in range( len( seasons ) ) ] )
+    compsBySeason = zip( seasons, [ emptyListHack[:] for x in range( len( seasons ) ) ] )
+
+    for crew in crews:
+        i = seasons.index( crew.season.title )
+        if not crew.competition.name in compsBySeason[ i ][ 1 ]:
+            compsBySeason[ i ][ 1 ].append( crew.competition.name )
+            crewsBySeason[ i ][ 1 ].append( ( crew.competition.name, [] ) )
+        j = compsBySeason[ i ][ 1 ].index( crew.competition.name )
+        crewsBySeason[ i ][ 1 ][ j ][ 1 ].append( crew )
+
+    print crewsBySeason
 
     templateName = 'simple/subs/crews.html'
     pageContent = paragraphedPageContent( page );
-    context[ 'htmlContent' ] = loader.render_to_string( templateName, { 'page': page, 'pageContent': pageContent, 'crews': crews } )
+    context[ 'htmlContent' ] = loader.render_to_string( templateName, { 'page': page, 'pageContent': pageContent, 'crewsBySeason': crewsBySeason } )
 
     return renderWithDefaults( request, context )
 

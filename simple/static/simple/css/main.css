@@ -102,6 +102,128 @@ textarea {
     **
     ****************/
 
+    .socialMediaSide > div
+    {
+        margin-top: 5px;
+    }
+
+    .sideNews
+    {
+        /*width: 220px;*/
+        margin-top: 5px;
+        /*margin-left: 25px;
+        margin-right: 25px;*/
+        margin-bottom: 20px !important;
+    }
+
+    .slick-dots
+    {
+        bottom: -20px !important;
+    }
+
+    .sideNewsInner
+    {
+        margin: 5px;
+    }
+
+    .sideNews > div > div
+    {
+        height: 100%;
+    }
+
+    .sideNews > div
+    {
+        text-align: center;
+        /*border: 1px solid #00003e;*/
+        border-radius: 2px;
+        background: #00003e;
+        color: #00003e;
+        background-color: rgba( 0, 0, 24, 0.8 );
+        /*box-shadow: 0 0 5px 0 black;*/
+        height: 200px;
+    }
+
+    aside
+    {
+        padding-top: 10px;
+        padding-bottom: 10px;
+        min-height: 100%;
+        height: 100%;
+    }
+
+    .sideNews span
+    {
+        left: 0px;
+        bottom: 0px;
+        position: absolute;
+        width: 100%;
+        z-index: 1000;
+        background: rgba( 255, 255, 255, 0.8 );
+    }
+
+
+    .sideNews img
+    {
+        position: absolute;
+        margin: 0 auto;
+        display: block;
+        top: 0px;
+        left: 0px;
+        width: 270px;
+    }
+
+    .sideNews a
+    {
+        text-decoration: none;
+        color: #00003e;
+        height: 100%;
+    }
+
+    .sideNews a:visited
+    {
+        color: #00003e;
+
+    }
+
+
+    .newsWrapper
+    {
+        /*background: #00003e;
+        color: white;*/
+    }
+
+
+    aside > div
+    {
+        margin-left: 10px;
+        margin-right: 10px;
+        margin-bottom: 10px;
+
+    }
+
+    aside h3
+    {
+        border-bottom: 2px solid #E3B74F;
+        margin-bottom: 2px;
+    }
+
+
+    .flag > *
+    {
+        text-align: center;
+        display: inline-block;
+
+    }
+
+    .flag
+    {
+        background: white;
+
+        border-radius: 5px;
+        text-align: center;
+    }
+
+
     .dbHeaderLogo
     {
         display: block;
@@ -118,8 +240,8 @@ textarea {
 
     .dbHeaderLogo > h3
     {
-        color: #0018a8;
-        font-weight: 700;
+        color: white;
+        font-weight: 400;
         width: 110px;
         text-align: center;
         font-size: 0.9rem;
@@ -171,16 +293,6 @@ textarea {
         z-index: 1000;
     }
 
-    nav
-    {
-        margin-top: 7px;
-    }
-
-    .wideNav
-    {
-    margin-left: 200px;
-    }
-
     nav ul
     {
     position: relative;
@@ -201,7 +313,7 @@ textarea {
     nav li
     {
     padding: 0px 0px;
-    margin: 0px 2px;
+    margin: 0px 0px;
     position: relative;
     }
 
@@ -261,16 +373,48 @@ textarea {
     color: #00003e;
 }
 
-body
+article
+{
+    font-family: 'Open Sans', serif;
+}
+
+body, h1, h2
 {
     font-family: 'Droid Serif', serif;
 }
 
+article
+{
+    width: 100%;
+    max-width: 850px;
+    float: left;
+}
+
+.clearHack
+{
+    clear: both;
+    float: none;
+}
+
+aside
+{
+    float: right;
+    max-width: 290px;
+    width: 100%;
+    margin-right: 0px;
+}
+
+footer
+{
+
+}
+
 .pageWidth
 {
-    max-width: 1000px;
+    max-width: 1150px;
     margin-left:auto;
     margin-right: auto;
+    clear: both;
 }
 
 .clearBackground
@@ -299,7 +443,7 @@ body
 .headerImageInnerWrapper
 {
     position: fixed;
-    height: 312px;
+    height: 322px;
     width: 100%;
     top: 10px;
     background-color: rgba(0,0,0,0);
@@ -341,6 +485,11 @@ article ul
 	list-style: inside circle;
 }
 
+article ul > li > ul
+{
+    margin-left: 10px;
+}
+
 .firstNav>li>a, .secondNav, .crest h1
 {
     box-shadow: 0 0 5px black;
@@ -374,15 +523,22 @@ header
 	overflow: hidden;
 	width: 100%;
 	display: block;
-	height: 322px;
+	height: 332px;
 }
 
 nav
 {
     position: absolute;
-    bottom: 10px;
-    left: 70px;
+    top: 270px;
     z-index: 20;
+}
+
+.wideNav
+{
+    padding-left: 40px;
+    width: 100%;
+/*    border-top: 1px solid #E3B74F;
+    border-bottom: 1px solid #E3B74F;*/
 }
 
 .NavigationUL
@@ -390,12 +546,32 @@ nav
     list-style: none;
 }
 
+.NavigationLI > a
+{
+    padding-left: 5px;
+    padding-right: 5px;
+    /*border-left: 1px solid #E3B74F;
+    border-top: 1px solid #E3B74F;
+    border-bottom: 1px solid #E3B74F;*/
+    /*border-radius: 10px;*/
+    display: inline-block;
+
+
+
+}
+
+.NavigationLI:last-child > a
+{
+    /*border-right: 1px solid #E3B74F;*/
+}
+
 .NavigationLI
 {
-    font-size: 1.5em;
-    margin-right: 10px;
-    display: inline-block;
-	margin-top: 10px;
+    font-size: 1.45em;
+    margin-left: 2px;
+    margin-right: 2px;
+    margin-bottom: 2px;
+    /*box-shadow: 0 0 5px 0 black;*/
 }
 
 /*
@@ -406,10 +582,10 @@ nav
 */
 nav .headerButton
 {
-    padding: 0 5px;
     cursor: pointer;
+    padding-left: 5px;
+    padding-right: 5px;
 }
-
 
 footer
 {
@@ -677,7 +853,7 @@ article em
 }
 
 
-@media only screen and (max-width: 980px)  and (min-width:600px) {
+@media only screen and (max-width: 1050px)  and (min-width:600px) {
  header
  {
      font-size: 0.85em;
@@ -686,17 +862,83 @@ article em
  nav
  {
      left: 40px;
+     top: 230px;
+
  }
+
+    .headerImage
+    {
+
+    }
 
     .gapHack
     {
         display: none;
     }
 
+    .NavigationLI > a
+    {
+        border:none;
+        border-left: none;
+
+    }
+
+
+    .NavigationLI
+    {
+        padding: 2px;
+    }
+    .NavigationLI:last-child > a
+    {
+        border-right: none;
+    }
+
+    .crest h1
+    {
+        color: #E3B74F;/*00003e*/
+        background-color: #00003e;
+        font-size: 1.8rem;
+        display: block;
+        margin: 0 auto;
+    }
+
+     .crest img
+    {
+        height: 140px;
+        width: auto;
+    }
 
 }
 
 @media only screen and (max-width: 600px) {
+
+    aside
+    {
+        float: none;
+        margin: 0 auto;
+    }
+
+
+    .NavigationLI > a
+    {
+        border:none;
+
+    }
+
+    nav
+    {
+        top: 150px;
+    }
+    .NavigationLI:last-child > a
+    {
+        border-right: none;
+    }
+
+
+    .NavigationLI
+    {
+        padding: 2px;
+    }
 
     .gapHack
     {
@@ -725,7 +967,7 @@ html
 
 header
 {
-    font-size: 0.6em;
+    font-size: 0.8em;
  	margin-bottom: 0;
 }
 
@@ -749,10 +991,12 @@ article
         top: 50px;
     }
 
+    .dbHeaderLogo > h3:first-child
+    {
+        display: none;
+    }
     .dbHeaderLogo > h3, .crest h1
     {
-        color: #0018a8;
-        font-weight: 700;
         width: 50px;
         text-align: center;
         font-size: 0.7rem;
@@ -775,8 +1019,6 @@ article
 
 nav
 {
-    left: 10px;
-	bottom: 15px;
  	font-size: 0.95em;
 }
 

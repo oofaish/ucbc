@@ -6,7 +6,7 @@
 {% for stylesheet in page.stylesheets.all %}
     <link rel="stylesheet" href="{{stylesheet.url}}">
 {% endfor %}
-    <style class="inlinestyle">{{page.inlinestyle}}</style>
+    <style class="inlinestyle">{{page.inlinestyle | safe }}</style>
 {% endblock %}
 {% block header %}
 {{page.title}}

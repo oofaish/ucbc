@@ -21,7 +21,24 @@
 {% endif %}
 </li>
 </ul>
+{% if crew.subs.all|length %}
+<h4><span class="Seat">Subs:
+{% for sub in crew.subs.all %}
+    <i>{{sub.name}},</i></span>
+{% endfor %}
+</h4>
+<br>
+{% endif %}
+{% if crew.coaches.all|length %}
+<h4><span class="Seat">Coach:
+{% for coach in crew.coaches.all %}
+    <i>{{coach.name}},</i></span>
+{% endfor %}
+</h4>
+<br>
+{% endif %}
 {% if crew.reports.all|length %}
+<br>
 <h2>Reports</h2>
 <ul>
 {% for page in crew.reports.all %}
@@ -30,14 +47,6 @@
 </ul>
 {% endif %}
 
-{% if crew.coachs.all|length %}
-<h4><span class="Seat">Coach:
-{% for coach in crew.coaches.all %}
-    <i>{{coach.name}},</i></span>
-{% endfor %}
-</h4>
-<br>
-{% endif %}
 <br>
 <h2>Crew Photos</h2>
 
