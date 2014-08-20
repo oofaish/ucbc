@@ -107,6 +107,13 @@ textarea {
         margin-top: 5px;
     }
 
+    .sideNews2
+    {
+        list-style: none;
+        font-size: 0.75rem;
+
+    }
+
     .sideNews
     {
         /*width: 220px;*/
@@ -114,6 +121,16 @@ textarea {
         /*margin-left: 25px;
         margin-right: 25px;*/
         margin-bottom: 20px !important;
+    }
+
+    .sideNews a
+    {
+        transition: opacity 0.5s;
+    }
+
+    .sideNews a:hover
+    {
+        opacity: 0.8;
     }
 
     .slick-dots
@@ -378,7 +395,7 @@ article
     font-family: 'Open Sans', serif;
 }
 
-body, h1, h2
+header
 {
     font-family: 'Droid Serif', serif;
 }
@@ -686,13 +703,13 @@ article
    clear: both;
 }
 
-.pageContent :not(.blueimp-gallery) a:visited, .pageContent :not(.gallery) a, .FooterText a:visited, .FooterText a
+.pageContent :not(.blueimp-gallery) a:visited, .pageContent :not(.gallery) a, .FooterText a:visited, .FooterText a, aside a, aside a:visited
 {
     color: #ED3758;
 	text-decoration: none;
 }
 
-.pageContent :not(.blueimp-gallery) a:hover, .pageContent :not(.gallery) a:active, .FooterText a:hover, .FooterText a:active
+.pageContent :not(.blueimp-gallery) a:hover, .pageContent :not(.gallery) a:active, .FooterText a:hover, .FooterText a:active, .sideNews2 a:hover, sidewNewws2 a:active
 {
 	text-decoration: none;
 	border-bottom: 1px solid #ED3758;
@@ -853,8 +870,38 @@ article em
 }
 
 
-@media only screen and (max-width: 1050px)  and (min-width:600px) {
- header
+@media only screen and (max-width: 1150px)  and (min-width:600px) {
+
+    article
+{
+    width: 100%;
+    max-width: 100%;
+    float: none;
+    margin: 0 auto;
+}
+
+aside
+{
+    float: none;
+    margin: 0 auto;
+    max-width: 100%;
+    width: 100%;
+    margin-right: 0px;
+    margin-top: 10px;
+}
+
+ aside > div > sidewNews
+    {
+        max-width: 270px;
+    }
+
+aside > div
+    {
+        display: inline-block;
+        max-width: 270px;
+    }
+
+    header
  {
      font-size: 0.85em;
  }

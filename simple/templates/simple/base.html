@@ -16,7 +16,7 @@
         <!--<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">-->
         <link rel="stylesheet" href="{% static 'simple/css/font-awesome/css/font-awesome.min.css'%}">
 
-        <link rel="stylesheet" href="{% static 'simple/css/main.css' %}?v=20140819">
+        <link rel="stylesheet" href="{% static 'simple/css/main.css' %}?v=20140820">
         <link rel="stylesheet" href="{% static 'simple/js/vendor/gallery/css/blueimp-gallery.min.css' %}">
         {% block extrastyle %}{% endblock %}
         <script src="{% static 'simple/js/vendor/modernizr-2.7.1.min.js' %}"></script>
@@ -114,9 +114,7 @@
         <aside class="clearBackground">
             <div>
                 <h3>News & Results</h3>
-                <div class="newsWrapper">
                     {{ sideNews | safe }}
-                </div>
             </div>
 
             <div>
@@ -165,17 +163,20 @@
 
         {% block extrascripts %}{% endblock %}
         <script>
-        	{%if page.slug != 'qpscroll' %}
             $(document).ready(function(){
+                i = Math.random();
+                if( i < 0.5 )
+                    imagesArray = [ "/media/uploads/siteStatic/a2.jpg", "/media/uploads/siteStatic/a1.jpg" ];
+                else
+                    imagesArray = [ "/media/uploads/siteStatic/a1.jpg", "/media/uploads/siteStatic/a2.jpg" ];
             	if( window.innerWidth > 600 )
 	                $('body').qpScroll({
 	                    imagesFolder: "",
-	                    imagesArray: [ "/media/uploads/siteStatic/a2.jpg", "/media/uploads/siteStatic/a1.jpg" ],
-	                    firstSpeed: 12,
-	                    neighbourRatio: 1.02,
+	                    imagesArray: imagesArray,
+	                    firstSpeed: 15,
+	                    neighbourRatio: 1.01,
 	                    });
             });
-            {% endif %}
 
             {% block finalScript %}{% endblock %}
        </script>

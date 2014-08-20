@@ -222,6 +222,6 @@ $(document).ready(function(){
 
 
 $(window).load( function(){
-    if( window.innerWidth > 600 && $('article').height() > $('aside').height() )
+    if( window.innerWidth > 1150 && $('article').height() > $('aside').height() )
         $('aside').height( $('article').height() );
 });

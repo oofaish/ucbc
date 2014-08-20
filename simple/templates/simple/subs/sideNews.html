@@ -1,3 +1,5 @@
+<div class="newsWrapper">
+
 <div class="sideNews">
     {% for post in posts %}
     <div>
@@ -7,4 +9,12 @@
         </a>
     </div>
     {% endfor %}
+    </div>
+    <ul class="sideNews2">
+    {% for post in posts %}
+    <li><a href="{% url 'simple:newsPostView' 'news' post.year post.slug %}" class="sideNewsInner">{{post.title}}</a></li>
+    {% endfor %}
+    <li><a href="/news/" class="sideNewsInner">All News & Results...</a></li>
+    </ul>
+
 </div>
