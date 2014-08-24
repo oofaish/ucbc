@@ -36,7 +36,6 @@ class ContactForm( forms.Form ):
 def ensurePermission( page, request ):
     if page.status == 0 and not request.user.is_authenticated():
         raise PermissionDenied
-    page.updateReads( request )
 
 def paragraphedPageContent( page ):
     content = page.content1
@@ -86,9 +85,12 @@ def renderWithDefaults( request, context ):
         postDic[ 'slug' ]  = post.slug
         images = post.images.all()
         postDic[ 'image' ] = '/media/uploads/siteStatic/crest.png'
+        foundImage = False
+
         if len( images ) > 0:
             i = randint( 0, len( images ) - 1 )
-            postDic[ 'image' ] = images[ i ].imageFile.url
+            foundImage = True
+            imageFile = images[ i ].imageFile
         else:
             crews = post.crew_set.all()
             if len( crews ) > 0:
@@ -98,8 +100,17 @@ def renderWithDefaults( request, context ):
                     images = crews[ i ].images.all()
                     if len( images ) > 0:
                         i = randint( 0, len( images ) - 1 )
-                        postDic[ 'image' ] = images[ i ].imageFile.url
+                        foundImage = True
+                        imageFile = images[ i ].imageFile
                         break
+
+        if foundImage:
+            if imageFile.is_version:
+                originalImage = imageFile.original
+            else:
+                originalImage = imageFile
+            mediumURL = loader.render_to_string( 'simple/subs/image.html', { 'fileObject': originalImage, 'size': 'medium' } )
+            postDic[ 'image' ] = mediumURL
 
         postsToPrint.append( postDic )
 
@@ -131,7 +142,8 @@ def catPageViewStuff( category, year, slug, json, request ):
 
     templateName = 'simple/subs/' + myCat + '.html'
     pageContent = paragraphedPageContent( page )
-    returnDic[ 'htmlContent' ] = loader.render_to_string( templateName, { 'page': page, 'pageContent': pageContent } )
+
+    returnDic[ 'htmlContent' ] = loader.render_to_string( templateName, { 'page': page, 'pageContent': pageContent, 'path': request.path } )
 
     return returnDic
 
@@ -156,8 +168,13 @@ def imagesFromSubfolder( subfolder ):
     for fileObject in filelisting.files_walk_total():
         image = {}
         if fileObject.width != None:
+
+            #thumbnail = loader.render_to_string( 'simple/subs/image.html', { 'fileObject': fileObject, 'size': 'thumbnail' } )
+            #fileName  = loader.render_to_string( 'simple/subs/image.html', { 'fileObject': fileObject } )
+
             directory = fileObject.dirname.split( '/mediaroot/uploads' )[1]
-            fileName = '/media/uploads' + join( directory, fileObject.filename ) #fileObject.url
+
+            fileName  = '/media/uploads' + join( directory, fileObject.filename ) #fileObject.url
             thumbnail = '/media/_versions' + join( directory, fileObject.version_name("thumbnail") )
             image[ 'url' ] = fileName
             image[ 'thumbnailUrl' ] = thumbnail
@@ -185,13 +202,13 @@ def crewView( request, pk ):
     context0 = {'page':crew}
     context = {}
 
-    if crew.boatType.seats == 8:
+    if crew.boatClass.name[ 0 ] == '8':
         seats = [ 'Bow', 2, 3, 4, 5, 6, 7, 'Stroke' ]
-    elif crew.boatType.seats == 1:
+    elif crew.boatClass.name == '1x':
         seats = [ 'Sculler' ]
-    elif crew.boatType.seats == 2:
+    elif crew.boatClass.name[ 0 ] == '2':
         seats = [ 'Bow', 'Stroke' ]
-    elif crew.boatType.seats == 4:
+    elif crew.boatClass.name[ 0 ] == '4':
         seats = [ 'Bow', 2, 3, 'Stroke' ]
     else:
         seats = []
@@ -226,14 +243,14 @@ def crewView( request, pk ):
         fileObject = imageObject.imageFile
         image = {}
         image[ 'url' ] = fileObject.original.url;
-        thumbnail = image[ 'url' ].replace( 'uploads', '_versions' ).replace( fileObject.original_filename, fileObject.original.version_name("thumbnail") )
+        thumbnail = loader.render_to_string( 'simple/subs/image.html', { 'fileObject': fileObject, 'size': 'thumbnail' } )
         image[ 'thumbnailUrl' ] = thumbnail
         image[ 'title' ] = fileObject.filename_root
         images.append( image )
 
     context[ 'seats'   ] = zip( seats, members )
     context[ 'images' ] = images
-    context['crew'     ] = crew
+    context[ 'crew'     ] = crew
     context[ 'pageContent' ] = paragraphedPageContent( crew );
     templateName = 'simple/subs/crew.html'
     context0[ 'htmlContent' ] = loader.render_to_string( templateName, context )
@@ -246,7 +263,7 @@ def crewsView( request, category ):
 
     context = {'page':page}
 
-    crews = Crew.objects.filter(status=1 ).order_by( '-season__startYear', 'priority', '-boat__priority' )
+    crews = Crew.objects.filter(status=1 ).order_by( '-season__startYear', 'boatNumber__number', '-boatNumber__sex' )
     seasons = [];
     for crew in crews:
         if not crew.season.title in seasons:
@@ -264,8 +281,6 @@ def crewsView( request, category ):
             crewsBySeason[ i ][ 1 ].append( ( crew.competition.name, [] ) )
         j = compsBySeason[ i ][ 1 ].index( crew.competition.name )
         crewsBySeason[ i ][ 1 ][ j ][ 1 ].append( crew )
-
-    print crewsBySeason
 
     templateName = 'simple/subs/crews.html'
     pageContent = paragraphedPageContent( page );
@@ -341,21 +356,6 @@ def submitContactForm( request ):
             return HttpResponse( json.dumps( {'done':True } ), content_type = 'application/json' )
         else:
             return HttpResponse( json.dumps( {'error':form.errors } ), content_type = 'application/json' )
-    else:
-        raise Http404
-
-def submitKudos( request ):
-    if request.is_ajax():
-        if 'kudo' in request.POST:
-            val = 1
-        else:
-            val = -1
-        id = int( request.POST['id'] );
-        pageInstance = get_object_or_404( Page, id = id )
-        pageInstance.kudos += val
-        pageInstance.kudos = max( 0, pageInstance.kudos )
-        pageInstance.save()
-        return HttpResponse( json.dumps( {'done':True } ), content_type = 'application/json' )
     else:
         raise Http404
 

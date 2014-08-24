@@ -42,7 +42,7 @@ INSTALLED_APPS = (
     #JEFF'django.contrib.sites',
     #JEFF'django.contrib.flatpages',
     'simple',
-    #'django_evolution',
+    'django_evolution',
     #'south',
 )
 
@@ -98,9 +98,14 @@ STATIC_ROOT = 'staticfiles/'
 STATIC_URL = '/static/'
 MEDIA_ROOT = 'mediaroot/'
 MEDIA_URL = '/media/'
+
 FILEBROWSER_MEDIA_ROOT = 'mediaroot/'
-#FLIEBROWSWE_ROOT = '/mediaroot'
+#FILEBROWSER_MEDIA_ROOT = '/users/oofaish/Projects/UCBC/ucbc/mediaroot/'
+
+#FLIEBROWSWE_ROOT = '/mediaroot'#THIS ONE IS JUST IGNORED
+
 FILEBROWSER_VERSIONS_BASEDIR = '_versions'
+#FILEBROWSER_VERSIONS_BASEDIR = '/users/oofaish/Projects/UCBC/ucbc/mediaroot/_versions/'
 
 
 TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates') ]
@@ -117,10 +122,10 @@ os.path.join(BASE_DIR, 'bootstrap-3.2.0-dist'),
 #    'django.contrib.staticfiles.finders.FileSystemFinder',
 #)
 
-#TEMPLATE_CONTEXT_PROCESSORS = (
-#    'django.contrib.auth.context_processors.auth',
-#    'django.core.context_processors.request',
-#)
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.contrib.auth.context_processors.auth',
+    'django.core.context_processors.request',
+)
 
 #EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 #EMAIL_PORT = 587

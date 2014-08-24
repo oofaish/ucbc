@@ -7,10 +7,10 @@
         <title>University College Boat Club (UCBC), Oxford - {% block title %}{% endblock %}</title>
         <meta name="description" content="Official Website of UCBC, University College Boat Club, Oxford">
         <meta name="viewport" content="initial-scale=1.0,width=device-width,user-scalable=0">
+        <link rel="shortcut icon" href="http://www.ucbc.org.uk/favicon.ico?v=1" />
         <link rel="stylesheet" href="{% static 'simple/css/normalize.css' %}">
         <link rel="stylesheet" href="{% static 'simple/css/reset.css' %}">
         <link rel="stylesheet" href="{% static 'simple/css/animate.min.css' %}">
-        <link href="{% static 'simple/js/vendor/kudos/kudos.css' %}" media="screen" rel="stylesheet" type="text/css" />
         <link href='http://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic' rel='stylesheet' type='text/css'>
         <link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,300,700' rel='stylesheet' type='text/css'>
         <!--<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">-->
@@ -58,8 +58,8 @@
                             {% block headerIcons %}{% endblock %}
             <div class="headerImageWrapper pageWidth">
             <div class="headerImageInnerWrapper">
-                <img class="headerImage pageWidth" src="/media/uploads/siteStatic/headerAdjustedLarge.jpg" alt="UCBC Header">
-                <img class="headerImageCover pageWidth" src="/media/uploads/siteStatic/headerAdjustedLargeBlur.jpg" alt="UCBC Header Blur">
+                <img class="headerImage pageWidth" src="/media/uploads/siteStatic/headeradjustedlarge.jpg" alt="UCBC Header">
+                <img class="headerImageCover pageWidth" src="/media/uploads/siteStatic/headeradjustedlargeblur.jpg" alt="UCBC Header Blur">
             </div>
             </div>
                 <a class="jaxify crest" href="/"><img src="/media/uploads/siteStatic/crest.png"><h1>UCBC</h1></a>
@@ -75,6 +75,7 @@
                         </li><li><a href="/safety/" class="mainColorBackground headerButton jaxify">Water Safety</a>
                         </li><li><a href="/faqs/" class="mainColorBackground headerButton jaxify">FAQs</a>
                         </li><li><a href="/head-porters-plate/" class="mainColorBackground headerButton jaxify">Awards</a></li>
+                        </li><li><a href="/blues/" class="mainColorBackground headerButton jaxify">Blues Rowers</a></li>
                     </ul>
                     </li><li class="NavigationLI respectHover"><a class="mainColorBackground headerButton">About Us</a>
                     <ul class="secondNav">
@@ -82,7 +83,8 @@
                         </li><li><a href="/history/" class="mainColorBackground headerButton jaxify">Our History</a>
                         </li><li><a href="/constitution/" class="mainColorBackground headerButton jaxify">Our Constitution</a>
                         </li><li><a href="/boathouse/" class="mainColorBackground headerButton jaxify">Our Boathouse</a>
-                        </li><li><a href="/sponsors/" class="mainColorBackground headerButton jaxify">Our Sponsors</a></li>
+                        </li><li><a href="/sponsors/" class="mainColorBackground headerButton jaxify">Our Sponsors</a>
+                        </li><li><a href="/blues/" class="mainColorBackground headerButton jaxify">Our Blues</a></li>
                     </ul>
                     </li><li class="NavigationLI"><a class="mainColorBackground headerButton jaxify" href="/crews/">Crews</a>
                     </li><li class="NavigationLI respectHover"><a class="mainColorBackground headerButton">Gallery</a>
@@ -100,16 +102,15 @@
         <div class="wrapper pageWidth">
         <article class="clearBackground">
             <h1 class="pageTitle">{% block header %}{% endblock %}</h1>
-            <div class="kudosDiv"></div>
             <div class="pageContent">
             {% block content %}
             {% endblock %}
             </div>
-            <div class="shareWrapper"></div>
             <div class="AlertBox alert-success">
                 <span></span>
                 <a class="close" href="#" onclick="closeAlertBox()"><i class="fa fa-times-circle-o fa-1x"></i></a>
             </div>
+            <div class="clearHack"></div>
         </article>
         <aside class="clearBackground">
             <div>
@@ -131,9 +132,10 @@
             <div><a href="https://twitter.com/univbc" class="twitter-follow-button" data-show-count="false" data-dnt="true">Follow @univbc</a>
 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script></div>
             </div>
+            <div class="clearHack"></div>
         </aside>
 
-            <div class="clearHack"></div>
+        <div class="clearHack"></div>
         </div>
 <footer class="pageWidth">
             {% block footer %}
@@ -153,8 +155,6 @@
         <script type="text/javascript" src="//cdn.jsdelivr.net/jquery.slick/1.3.7/slick.min.js"></script>
         <script>window.jQuery || document.write('<script src="{%static 'simple/js/vendor/jquery-1.10.2.min.js'%}"><\/script>')</script>
         <script src="{%static 'simple/js/vendor/qpscroll.js' %}"></script>
-        <script src="{%static 'simple/js/vendor/kudos/jquery.cookie.js' %}"></script>
-        <script src="{%static 'simple/js/vendor/kudos/kudos.js' %}"></script>
         <script src="{%static 'simple/js/vendor/spin.min.js' %}"></script>
 
         <script src="{%static 'simple/js/plugins.js'%}"></script>

@@ -54,9 +54,6 @@ class Page( models.Model ):
     tags          = models.ManyToManyField(Tag, blank=True ) #again for blog posts
     created       = models.DateTimeField(default=datetime.now())
     updated       = models.DateTimeField(auto_now=True)
-    kudos         = models.PositiveIntegerField(default=0)
-    showKudos     = models.BooleanField(default=False)
-    reads         = models.PositiveIntegerField(default=0)
     images        = models.ManyToManyField(Image, blank=True )
     stylesheets   = models.ManyToManyField(Stylesheet, blank=True )
     scripts       = models.ManyToManyField(Script, blank=True )
@@ -74,11 +71,6 @@ class Page( models.Model ):
             return self.title + ' (Hidden)'
         else:
             return self.title + ' (Visible)'
-
-    def updateReads( self, request ):
-        if not request.user.is_authenticated():#only add read for non-logged in users, not for ME!!!
-            self.reads += 1
-            self.save()
 
     def pageDict( self ):
         keys = ( "title", "id", "kudos", "showKudos", 'inlinescript', 'inlinestyle' )
@@ -109,23 +101,39 @@ class Page( models.Model ):
     def summary(self):
         return self.content[0:min(100,len(self.content))]
 
-class Role( models.Model ):
-    name = models.CharField( max_length=50 )
-
-    def __unicode__(self):
-        return self.name
-
-class Boat( models.Model ):#M1, M2, M3
+class BoatClass( models.Model ):
     name = models.CharField( max_length=20 )
     priority = models.SmallIntegerField(default=0)
 
     def __unicode__(self):
         return self.name
 
-class BoatType( models.Model ):#VIII, IV
-    name    = models.CharField( max_length=20 )
-    seats   = models.PositiveSmallIntegerField(default=8)
-    coxless = models.BooleanField(default=False)
+class Role( models.Model ):
+    name = models.CharField( max_length=50 )
+
+    def __unicode__(self):
+        return self.name
+
+class BoatNumber( models.Model ):#M1, W2, etc
+    sex    = models.CharField( max_length=1 )
+    number = models.PositiveSmallIntegerField( default=1 )
+
+    @property
+    def title(self):
+        return  self.sex + str( self.number )
+
+    def __unicode__(self):
+        return unicode( self.title )
+
+class Boat( models.Model ):
+    name = models.CharField( max_length=100, blank=True )
+    make = models.CharField( max_length=50,blank=True )
+    model = models.CharField(max_length=30, blank=True )
+    weight = models.CharField( max_length=10, blank=True )
+    notes = models.TextField(blank=True)
+    year = models.PositiveIntegerField(default=0)
+    boatClass = models.ForeignKey(BoatClass,null=True,blank=True)
+
     def __unicode__(self):
         return self.name
 
@@ -191,8 +199,9 @@ class Member( models.Model ):
 class Crew( models.Model ):
     name          = models.CharField( max_length=100, blank = True )
     season        = models.ForeignKey( Season )
-    boat          = models.ForeignKey(Boat, null=True, blank=True)
-    boatType      = models.ForeignKey(BoatType, null=True, blank=True)
+    boatNumber    = models.ForeignKey(BoatNumber, null=True, blank=True)
+    boat          = models.ForeignKey(Boat, null=True,blank=True)
+    boatClass     = models.ForeignKey(BoatClass, null=True, blank=True)
     competition   = models.ForeignKey(Competition, null=True, blank=True)
     Term          = models.ForeignKey(Term, null=True, blank=True)
     summary       = models.TextField(blank=True)
@@ -226,8 +235,8 @@ class Crew( models.Model ):
     @property
     def shortTitle(self):
         r = '';
-        if self.boat:
-            r = r + self.boat.name
+        if self.boatNumber:
+            r = r + self.boatNumber.title
 
         if len( r ) == 0:
             r = '<unnamed>'
@@ -236,16 +245,16 @@ class Crew( models.Model ):
     @property
     def title(self):
         r = '';
-        if self.boat:
-            r = r + ' ' + self.boat.name
+        if self.boatNumber:
+            r = r + ' ' + self.boatNumber.title
         if self.competition:
             r = r + ' ' + self.competition.name
         if self.season:
             r = r + ' ' + self.season.title
-        if self.boatType:
-            r = r + ' ' + self.boatType.name
+        if self.boatClass:
+            r = r + ' (' + self.boatClass.name + ')'
 
         if len( r ) == 0:
-            r = '<unnamed>'
+            r = self.name
         return r
 

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from simple.models import Page, Tag, Image, Category, Stylesheet, Script, Crew, Member, CommitteeRole, CommitteeRoleTitle, Season, Role, Boat, BoatType,Competition,Term
+from simple.models import Page, Tag, Image, Category, Stylesheet, Script, Crew, Member, CommitteeRole, CommitteeRoleTitle, Season, Role, Boat,Competition,Term, BoatClass, BoatNumber
 
 admin.site.register(Page)
 admin.site.register(Tag)
@@ -16,5 +16,6 @@ admin.site.register(Stylesheet)
 admin.site.register(Boat)
 admin.site.register(Competition)
 admin.site.register(Term)
-admin.site.register(BoatType)
+admin.site.register(BoatClass)
+admin.site.register(BoatNumber)
 

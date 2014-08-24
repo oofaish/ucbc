@@ -13,7 +13,7 @@
         <i>{% with seat|last as member %}{{member.name}}{% endwith %}</i>
     </li>
 {% endfor %}
-{% if not crew.boatType.coxless %}
+{% if crew.coxes.all|length %}
 <li>Cox:
 {% for cox in crew.coxes.all %}
     <i>{{cox.name}},</i>
@@ -46,7 +46,10 @@
 {% endfor %}
 </ul>
 {% endif %}
-
+{% if crew.boat %}
+<h2>Raced in </h2>
+<p>{{crew.boat.name}} ({{crew.boat.boatClass}})</p>
+{% endif %}
 <br>
 <h2>Crew Photos</h2>
 

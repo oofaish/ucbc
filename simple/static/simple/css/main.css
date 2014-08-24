@@ -897,7 +897,7 @@ aside
 
 aside > div
     {
-        display: inline-block;
+        float: left;
         max-width: 270px;
     }
 
@@ -913,10 +913,11 @@ aside > div
 
  }
 
-    .headerImage
+   /* img.headerImage img.headerImageCover
     {
-
-    }
+	width: 100%;
+	min-width: none;
+    }*/
 
     .gapHack
     {
@@ -1195,36 +1196,26 @@ nav
  */
 .shareWrapper
 {
-	margin-top: 10px;
-	font-size: 0.9em;
-	font-style: italic;
-	display: inline-block;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #E3B74F;
+    /*max-width: 400px;*/
+    display: inline-block;
+    margin-bottom: 3px;
 }
 
-.shareWrapper .buttons
+.shareWrapper > .twitter-share-button
 {
-	display: inline-block;
-	margin-top: 10px;
-	padding-top: 5px;
-	border-radius: 5px;
-	background-color: rgba( 10, 10, 10, 0.7 );
-	box-shadow: 0 0 2px black;
+    vertical-align: bottom;
+/*    margin-top: 5px;*/
 }
-.shareWrapper .button
+
+.shareWrapper > .fb-like
 {
-	display: inline-block;
-	margin: 5px;
 }
 
 .pageContent iframe, .pageContent img
 {
 	max-width: 100%;
-}
-
-.shareWrapper a
-{
-	text-decoration: none;
-	color: white !important;
 }
 
 .medium

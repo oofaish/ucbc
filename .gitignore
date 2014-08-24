@@ -9,6 +9,8 @@ mediaroot/
 db.sqlite3
 db.sqlite3-SIMPLE
 
+ucbc/settings_WEBSITE_VERSION.py
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

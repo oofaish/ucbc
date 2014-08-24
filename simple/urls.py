@@ -28,7 +28,7 @@ urlpatterns = patterns('',
 
 
     url( r'^submitContactForm$', views.submitContactForm, name="submitContactForm" ),
-    url( r'^submitKudos$', views.submitKudos, name="submitKudos" ),
+    #url( r'^submitKudos$', views.submitKudos, name="submitKudos" ),
 
     # UCBC static content view definitions
     #JEFFurl(r'^$', fviews.flatpage, {'url': '/'}, name='home'),
