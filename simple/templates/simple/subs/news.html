@@ -1,6 +1,50 @@
-{{pageContent | safe }}
     <ul>
-    {% for post in posts %}
-        <li><a class='jaxify' href="{% url 'simple:newsPostView' page.slug post.created.year post.slug %}">{{post.title}}</a>,<span class="smallItalicText">posted {{post.created}}</span></li>
+    {% for post in postDics %}
+        <li class="postLI"><a class='jaxify postTitle' href="{% url 'simple:newsPostView' page.slug post.post.created.year post.post.slug %}">{{post.post.title}}</a><span class="postDate smallItalicText">{{post.post.created|date:"M d, Y"}}</span>
+            <div class="summary">{{post.summary | safe }}
+            <a class='jaxify readFurther' href="{% url 'simple:newsPostView' page.slug post.post.created.year post.post.slug %}">Read further</a>
+            </div>
+        </li>
     {% endfor %}
     </ul>
+
+
+<style>
+
+    .postDate
+    {
+        margin-left: 15px;
+        margin-bottom: 5px;
+        display: block;
+    }
+
+    .postTitle
+    {
+        font-size: 1.3rem;
+    }
+
+    .postLI
+    {
+        background-color: rgba( 150, 150, 150, 0.2 );
+        padding: 5px;
+        margin-bottom: 30px;
+        border-radiust: 10px;
+        -webkit-box-shadow: 0px 0px 5px 0px rgba(150, 150, 150, 0.2);
+        -moz-box-shadow:    0px 0px 5px 0px rgba(150, 150, 150, 0.2);
+        box-shadow:         0px 0px 5px 0px rgba(150, 150, 150, 0.2);
+    }
+
+    .summary
+    {
+        margin-left: 15px;
+        font-size: 0.9rem;
+    }
+
+    .readFurther
+    {
+        font-size: 0.7rem;
+    }
+
+
+
+</style>

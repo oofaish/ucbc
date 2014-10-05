@@ -16,7 +16,7 @@
         <!--<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">-->
         <link rel="stylesheet" href="{% static 'simple/css/font-awesome/css/font-awesome.min.css'%}">
 
-        <link rel="stylesheet" href="{% static 'simple/css/main.css' %}?v=20140820">
+        <link rel="stylesheet" href="{% static 'simple/css/main.css' %}?v=20141001">
         <link rel="stylesheet" href="{% static 'simple/js/vendor/gallery/css/blueimp-gallery.min.css' %}">
         {% block extrastyle %}{% endblock %}
         <script src="{% static 'simple/js/vendor/modernizr-2.7.1.min.js' %}"></script>
@@ -63,40 +63,9 @@
             </div>
             </div>
                 <a class="jaxify crest" href="/"><img src="/media/uploads/siteStatic/crest.png"><h1>UCBC</h1></a>
-                <a class="dbHeaderLogo" href="/sponsors/"><h3>Sponsored by</h3><img src="/media/uploads/siteStatic/db_square.jpg"><h3>Deutsche Bank</h3></a>
-            <nav class="wideNav">
-                <ul class='NavigationUL firstNav'>
-                    <li class="NavigationLI"><a class="mainColorBackground headerButton jaxify" href="/news/">News & Results</a>
-                    </li><li class="NavigationLI"><a class="mainColorBackground headerButton jaxify" href="/give/">Friends of UCBC</a>
-                    </li><li class="NavigationLI respectHover"><a class="mainColorBackground headerButton">Row For Univ</a>
-                    <ul class="secondNav">
-                        <li><a href="/novice/" class="mainColorBackground headerButton jaxify">Novice Rowing & Coxing</a>
-                        </li><li><a href="/experienced/" class="mainColorBackground headerButton jaxify">Experiened Rowing & Coxing</a>
-                        </li><li><a href="/safety/" class="mainColorBackground headerButton jaxify">Water Safety</a>
-                        </li><li><a href="/faqs/" class="mainColorBackground headerButton jaxify">FAQs</a>
-                        </li><li><a href="/head-porters-plate/" class="mainColorBackground headerButton jaxify">Awards</a></li>
-                        </li><li><a href="/blues/" class="mainColorBackground headerButton jaxify">Blues Rowers</a></li>
-                    </ul>
-                    </li><li class="NavigationLI respectHover"><a class="mainColorBackground headerButton">About Us</a>
-                    <ul class="secondNav">
-                        <li><a href="/fleet/" class="mainColorBackground headerButton jaxify">Our Fleet</a>
-                        </li><li><a href="/history/" class="mainColorBackground headerButton jaxify">Our History</a>
-                        </li><li><a href="/constitution/" class="mainColorBackground headerButton jaxify">Our Constitution</a>
-                        </li><li><a href="/boathouse/" class="mainColorBackground headerButton jaxify">Our Boathouse</a>
-                        </li><li><a href="/sponsors/" class="mainColorBackground headerButton jaxify">Our Sponsors</a>
-                        </li><li><a href="/blues/" class="mainColorBackground headerButton jaxify">Our Blues</a></li>
-                    </ul>
-                    </li><li class="NavigationLI"><a class="mainColorBackground headerButton jaxify" href="/crews/">Crews</a>
-                    </li><li class="NavigationLI respectHover"><a class="mainColorBackground headerButton">Gallery</a>
-                    <ul class="secondNav">
-                        <li><a href="/photos/" class="mainColorBackground headerButton jaxify">Photos</a></li>
-                        <li><a href="/videos/" class="mainColorBackground headerButton jaxify">Videos</a></li>
-                    </ul>
-                    </li><li class="NavigationLI"><a class="mainColorBackground headerButton jaxify" href="/committee/">Committee</a>
-                    </li><li class="NavigationLI"><a href="/find-us/" class="mainColorBackground headerButton">Find Us</a></li>
+                <a class="dbHeaderLogo" href="/sponsors/"><img src="/media/uploads/siteStatic/db_square.jpg"></a>
+            {{ navs | safe }}
 
-                </ul>
-            </nav>
         </header>
         <!-- Add your site or application content here -->
         <div class="wrapper pageWidth">

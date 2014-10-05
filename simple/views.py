@@ -6,7 +6,7 @@ from django.http import Http404
 from django.http import HttpResponse
 from django.core.serializers.json import DjangoJSONEncoder
 from django.views.generic import ListView
-from simple.models import Page, Category, Crew
+from simple.models import Page, Category, Crew, Image
 from django.template import loader, Context
 from django.shortcuts import get_object_or_404
 from django.core.exceptions import PermissionDenied
@@ -20,6 +20,7 @@ from django import template
 from filebrowser.sites import site
 from filebrowser.base import FileListing
 from filebrowser.base import FileObject
+from filebrowser.settings import DIRECTORY as FB_DIRECTORY
 from os.path import join
 
 from random import shuffle
@@ -37,38 +38,72 @@ def ensurePermission( page, request ):
     if page.status == 0 and not request.user.is_authenticated():
         raise PermissionDenied
 
-def paragraphedPageContent( page ):
+def getImage( originalImage, size ):
+    if size:
+        imageURL = loader.render_to_string( 'simple/subs/image.html', { 'fileObject': originalImage, 'size': size } )
+    else:
+        imageURL = loader.render_to_string( 'simple/subs/image.html', { 'fileObject': originalImage } )
+    return imageURL.strip()
+
+def paragraphedPageContent( page, includeImages = True, stopAt = None ):
     content = page.content1
-    imageTagsAndLocations = re.findall( r'\[\[([\w\s/\\]*);([\w\s/\\]*)\]\]', content )
-
-    for (imageTag,imageLocation) in imageTagsAndLocations:
-        if imageLocation == 'left' or imageLocation == 'right':
-            css = "display:block; float:" + imageLocation
-            captionCss = "text-align:left"
-        elif imageLocation == 'center' or imageLocation=='centre':
-            css="display:block; margin-left:auto; margin-right:auto"
-            captionCss = 'text-align:center'
-        else:
-            css = ''
-            captionCss = ''
-        try:
-            imageInstance = page.images.get(title=imageTag)
-
-            if len( imageInstance.caption ) > 0:
-                if imageLocation == 'center' or imageLocation=='centre':
-                    newImageTag = '<img style="' + css + '" src="' + imageInstance.imageFile.url + '" alt="'+ imageInstance.title + '">'
-                else:
-                    newImageTag = '<img src="' + imageInstance.imageFile.url + '" alt="'+ imageInstance.title + '">'
-                newImageTag = '<figure style="' + css + '">' +newImageTag + '<figcaption style="' + captionCss + '"><i>' + imageInstance.caption + '</i></figcaption></figure>'
+    imageTagsAndLocations = re.findall( r'\[\[([\w\s/\\]*);([\w\s/\\]*)(;*[\w\s/\\]*)\]\]', content )
+    for (imageTag,imageLocation,imageSize) in imageTagsAndLocations:
+        imageSizeOriginal = imageSize
+        if includeImages:
+            if len( imageSize ) == 1:
+                imageSize = None
+            elif len( imageSize ) == 0:
+                imageSize = 'medium'
             else:
-                newImageTag = '<img style="' + css + '" src="' + imageInstance.imageFile.url + '" alt="'+ imageInstance.title + '">'
-            content = content.replace( '[[' + imageTag + ';' + imageLocation + ']]', newImageTag )
-        except:
-            print 'failed to get the image', imageTag
+                imageSize = imageSize[1:].lower()
+            if imageLocation == 'left' or imageLocation == 'right':
+                css = "display:block; float:" + imageLocation
+                captionCss = "text-align:left"
+            elif imageLocation == 'center' or imageLocation=='centre':
+                css="display:block; margin-left:auto; margin-right:auto"
+                captionCss = 'text-align:center'
+            else:
+                css = ''
+                captionCss = ''
+            try:
+                try:
+                    imageInstance = page.images.get(title=imageTag)
+                except:
+                    imageInstance = get_object_or_404( Image, title=imageTag )
+
+                if imageInstance.imageFile.is_version:
+                    originalImage = imageInstance.imageFile.original
+                else:
+                    originalImage = imageInstance.imageFile
+                if originalImage.exists:
+                    imageURL = getImage( originalImage, imageSize )
+
+                    if len( imageInstance.caption ) > 0:
+                        if imageLocation == 'center' or imageLocation=='centre':
+                            newImageTag = '<img style="' + css + '" src="' + imageURL + '" alt="'+ imageInstance.title + '">'
+                        else:
+                            newImageTag = '<img src="' + imageURL + '" alt="'+ imageInstance.title + '">'
+                        newImageTag = '<figure style="' + css + '">' +newImageTag + '<figcaption style="' + captionCss + '"><i>' + imageInstance.caption + '</i></figcaption></figure>'
+                    else:
+                        newImageTag = '<img style="' + css + '" src="' + imageURL + '" alt="'+ imageInstance.title + '">'
+                    content = content.replace( '[[' + imageTag + ';' + imageLocation + imageSizeOriginal + ']]', newImageTag )
+                else:
+                    print 'File does not exist for tag: ', imageTag
+            except Exception as inst:
+                print 'Failed to get image ', imageTag, ':', inst
+        else:
+            content = content.replace( '[[' + imageTag + ';' + imageLocation + imageSizeOriginal + ']]', '' )
+
+    if stopAt != None:
+        totalLength = len( content )
+        content = content[ 0:min( stopAt , len( content ) ) ]
+        if stopAt < totalLength:
+            content = content + ' ....'
 
     return markdown.markdown( content )
 
-def renderWithDefaults( request, context ):
+def extraContextItems():
     form = ContactForm()
 
     #page     = Page.objects.get(slug='news')
@@ -109,7 +144,8 @@ def renderWithDefaults( request, context ):
                 originalImage = imageFile.original
             else:
                 originalImage = imageFile
-            mediumURL = loader.render_to_string( 'simple/subs/image.html', { 'fileObject': originalImage, 'size': 'medium' } )
+            mediumURL = getImage( originalImage, 'medium' )
+
             postDic[ 'image' ] = mediumURL
 
         postsToPrint.append( postDic )
@@ -123,7 +159,18 @@ def renderWithDefaults( request, context ):
     except:
         footer = 'the boat club president is a nerd'
 
-    newContext = dict(  context.items() + [( 'contactform', form ), ( 'footer', footer ), ('sideNews', sideNews ) ] )
+    try:
+        navPage = Page.objects.get(slug='navs')
+        navs = navPage.content1
+    except:
+        navs = 'Menus Not Found'
+
+    return [( 'contactform', form ), ( 'footer', footer ), ('sideNews', sideNews ), ('navs', navs ) ]
+
+def renderWithDefaults( request, context ):
+
+    extras = extraContextItems()
+    newContext = dict(  context.items() + extras )
     return render( request, 'simple/page.html', newContext )
 
 
@@ -161,24 +208,30 @@ def ensureList( category ):
         raise Http404
 
 def imagesFromSubfolder( subfolder ):
-    filelisting = FileListing( join( site.storage.location, 'uploads/gallery', subfolder ), sorting_by='name', sorting_order='desc')
+
+    directory = FB_DIRECTORY
+
+    path = u'%s' % join( directory, 'gallery', subfolder )
+
+    filelisting = FileListing(
+        path,
+        #filter_func=filter_browse,
+        sorting_by='name',
+        sorting_order='desc',
+        #site=self
+        )
 
     images = []
 
-    for fileObject in filelisting.files_walk_total():
+    for fileObject in filelisting.files_walk_filtered():#files_walk_total():
         image = {}
         if fileObject.width != None:
-
+            thumbnail = getImage( fileObject, 'thumbnail' )
+            fileName  = fileObject.url
             #thumbnail = loader.render_to_string( 'simple/subs/image.html', { 'fileObject': fileObject, 'size': 'thumbnail' } )
             #fileName  = loader.render_to_string( 'simple/subs/image.html', { 'fileObject': fileObject } )
-
-            directory = fileObject.dirname.split( '/mediaroot/uploads' )[1]
-
-            fileName  = '/media/uploads' + join( directory, fileObject.filename ) #fileObject.url
-            thumbnail = '/media/_versions' + join( directory, fileObject.version_name("thumbnail") )
             image[ 'url' ] = fileName
             image[ 'thumbnailUrl' ] = thumbnail
-            #fileObject.version_generate("thumbnail")
             image[ 'title' ] = fileObject.filename_root
             images.append( image )
     return images;
@@ -243,7 +296,8 @@ def crewView( request, pk ):
         fileObject = imageObject.imageFile
         image = {}
         image[ 'url' ] = fileObject.original.url;
-        thumbnail = loader.render_to_string( 'simple/subs/image.html', { 'fileObject': fileObject, 'size': 'thumbnail' } )
+        thumbnail = getImage( fileObject, 'thumbnail' )
+        #thumbnail = loader.render_to_string( 'simple/subs/image.html', { 'fileObject': fileObject, 'size': 'thumbnail' } )
         image[ 'thumbnailUrl' ] = thumbnail
         image[ 'title' ] = fileObject.filename_root
         images.append( image )
@@ -294,6 +348,14 @@ def listViewStuff( category, json, request ):
     ensurePermission( page, request )
     posts = Page.objects.filter(status=1,categories__name=page.categories.all()[ 0 ].subCategoryName ).order_by( '-created' )
 
+    postDics = []
+    for post in posts:
+        postDic = {}
+        postDic[    'post' ] = post
+        summary = paragraphedPageContent( post, includeImages = False, stopAt = 600 )
+
+        postDic[ 'summary' ] = summary
+        postDics.append( postDic )
     if json:
         returnDic = page.pageDict()
     else:
@@ -301,7 +363,7 @@ def listViewStuff( category, json, request ):
 
     templateName = 'simple/subs/' + category + '.html'
     pageContent = paragraphedPageContent( page );
-    returnDic[ 'htmlContent' ] = loader.render_to_string( templateName, { 'page': page, 'pageContent':pageContent, 'posts': posts} )
+    returnDic[ 'htmlContent' ] = loader.render_to_string( templateName, { 'page': page, 'pageContent':pageContent, 'postDics': postDics } )
 
     return returnDic
 
@@ -360,11 +422,11 @@ def submitContactForm( request ):
         raise Http404
 
 def handler404(request):
-    form = ContactForm()
-    html = loader.render_to_string( 'simple/404.html', {'contactform':form})
+    extras = extraContextItems()
+    html = loader.render_to_string( 'simple/404.html', dict( extras ) )
     return HttpResponseNotFound(html)
 
 def handler403(request):
-    form = ContactForm()
-    html = loader.render_to_string( 'simple/403.html', {'contactform':form})
+    extras = extraContextItems()
+    html = loader.render_to_string( 'simple/403.html', dict( extras ) )
     return HttpResponseNotFound(html)

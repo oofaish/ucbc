@@ -13,13 +13,12 @@
 </ul>
 {% endif %}
 <br>
-<p class="smallItalicText">Posted on {{page.created}}</p>
-<p class="postTags">posted under:
-{% if page.tags.all|length == 0 %}
-	<span class="postTag">untagged</span>
-{% else %}
+<p class="smallItalicText">Posted on {{page.created|date:"M d, Y"}}</p>
+
+{% if page.tags.all|length %}
+    <p class="postTags">posted under:
 	{% for tag in page.tags.all %}<span class="postTag">{{tag.name}}</span>{% endfor %}
+    </p>
 {% endif %}
-</p>
 
 <a class='jaxify' href="{% url 'simple:newsView' 'news' %}"><i class="fa fa-arrow-circle-left fa-1x"></i> back to News and Results</a>

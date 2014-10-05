@@ -204,7 +204,6 @@
      ***********************************************************/
     function Plugin( element, userOptions ) {
         var options = $.extend( {}, $.fn.qpScroll.defaults, userOptions );
-
         helpers.init( element, options );
     }
 

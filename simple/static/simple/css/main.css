@@ -246,9 +246,20 @@ textarea {
         display: block;
         position: absolute;
         right: 50px;
-        top: 40px;
+        top: 120px;
+        padding-left: 10px;
+        padding-right: 10px;
         z-index: 1000;
+        box-shadow: 0px 0px 5px 0px black;
+        background: white;
+        padding: 5px;
     }
+
+    .dbHeaderLogo > img
+    {
+        width: 300px;
+    }
+
 
     .dbHeaderLogo:hover
     {
@@ -283,7 +294,7 @@ textarea {
         margin: 0 auto;
     }
 
-    .dbHeaderLogo > img, .crest img
+     .crest img
     {
         height: 110px;
         width: auto;
@@ -444,8 +455,9 @@ footer
 .headerImage, .headerImageCover
 {
     width: 100%;
-    min-width: 1000px;
+    min-width: 1076px;
     position: absolute;
+    overflow: hidden;
     top: 0;
     z-index: -10;
     opacity: 1;
@@ -553,9 +565,6 @@ nav
 .wideNav
 {
     padding-left: 40px;
-    width: 100%;
-/*    border-top: 1px solid #E3B74F;
-    border-bottom: 1px solid #E3B74F;*/
 }
 
 .NavigationUL
@@ -913,11 +922,13 @@ aside > div
 
  }
 
-   /* img.headerImage img.headerImageCover
+    img.headerImage, img.headerImageCover
     {
 	width: 100%;
+    min-width: 1076px;
+    overflow: hidden;
 	min-width: none;
-    }*/
+    }
 
     .gapHack
     {
@@ -1036,7 +1047,8 @@ article
         display: block;
         position: absolute;
         right: 50px;
-        top: 50px;
+        top: 90px;
+        background: white;
     }
 
     .dbHeaderLogo > h3:first-child
@@ -1059,10 +1071,15 @@ article
         margin: 0 auto;
     }
 
-    .dbHeaderLogo > img, .crest img
+    .crest img
     {
         height: 50px;
         width: auto;
+    }
+
+    .dbHeaderLogo > img
+    {
+        width: 150px;
     }
 
 nav

@@ -1,8 +1,3 @@
-{% load fb_versions %}
-{% if size %}
-    {% version_object fileObject size as version_size %}
-    {{ version_size.url }}
-{% else %}
-    {{fileObject.url }}
-{% endif %}
+{% load fb_versions %}{% if size %}{% version_object fileObject size as version_size %}{{version_size.url}}
+{% else %}{{fileObject.url}}{% endif %}
 

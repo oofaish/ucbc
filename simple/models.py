@@ -41,7 +41,8 @@ class Image( models.Model ):
 
 def pageContentHelp():
     help = "<h2>Adding Images</h2><h3>Add an image by first adding it to the 'Images' section below. You can then include an image titled 'UCBCRocks' in the article by adding</h3>"
-    help = help + '<h3>[[UCBCRocks;LOCATION]],</h3><h3>to the article, where LOCATION could be left, right, center or left empty.</h3>'
+    help = help + '<h3>[[UCBCRocks;LOCATION;SIZE]],</h3><h3>to the article, where LOCATION could be left, right, center or left empty.</h3>'
+    help = help + "<h3>And size can be 'thumbnail', 'small', 'medium', 'big' or 'large'</h3>"
     help = help + "<h3>Remember you can choose different sized images when selecting the image file by clicking the arrow on left hand side of the 'Select' Button.</h3>"
     return help
 

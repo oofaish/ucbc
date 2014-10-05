@@ -12,11 +12,7 @@
 </div>
 
 <div id="links" class="gallery">
-    {% for image in images %}
-    <a href="{{ image.url }}" title="{{ image.title }}">
-        <img src="{{ image.thumbnailUrl }}" alt="{{ image.title }}">
-    </a>
-    {% endfor %}
+    {% for image in images %}<a href="{{ image.url }}" title="{{ image.title }}"><img src="{{ image.thumbnailUrl }}" alt="{{ image.title }}"></a>{% endfor %}
 </div>
 
 <br>
